@@ -1,0 +1,8 @@
+
+34
+/home/corentin/tmp/NeoKit/lua/neokit/hello.lua
+1689582145
+local A="561";return {{{A,1,1,1,1,"main_chunk"},{A,3,1,18,1,"function","M.hello"},{"113",4,5,9,"print"}},{},{12,0,18,25,3,0,8,0},{}}
+/home/corentin/tmp/NeoKit/lua/neokit/init.lua
+1689581912
+local A,B="561","113";return {{{A,1,1,1,1,"main_chunk"},{B,2,16,27,"setmetatable"},{A,3,13,26,2,"function"},{B,4,21,25,"pcall"},{B,4,27,33,"require"},{B,4,36,41,"string",{"format"}},{B,7,7,12,"rawset"}},{},{36,33,26,65,0,14,23,7,0,14,6,2,0,13,0},{"comment"}}
