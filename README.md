@@ -32,3 +32,4 @@ require("lazy").setup({
 
 - `neokit.str`
 - `neokit.array`
+- `neokit.table`
