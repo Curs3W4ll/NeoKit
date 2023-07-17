@@ -30,4 +30,4 @@ require("lazy").setup({
 
 ## Modules
 
-- `neokit.hello`
+- `neokit.str`
