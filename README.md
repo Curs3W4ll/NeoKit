@@ -31,3 +31,4 @@ require("lazy").setup({
 ## Modules
 
 - `neokit.str`
+- `neokit.array`
