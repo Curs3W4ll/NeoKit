@@ -1,10 +1,10 @@
 name: CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   format:
-    name: Auto-format
+    name: Auto format
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -27,16 +27,14 @@ jobs:
           branch: ${{ github.ref }}
 
   lint:
-    name: Lint
+    name: Check lint
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-
       - name: Prepare
         run: |
           sudo apt-get update
           sudo apt-get install -y luarocks
           sudo luarocks install luacheck
-
       - name: Lint
         run: sudo make lint
