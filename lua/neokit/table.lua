@@ -1,12 +1,25 @@
+---Tables utilities module
+---@module table
+---@alias M
+
 local M = {}
 
----Concat tbl2 into tbl1
----@note Values from tbl1 will be taken over values from tbl2 unless 'force' argument is set to true
+---Concat tbl2 into tbl1<br/>
+---Values from tbl1 will be taken over values from tbl2 unless 'force' argument is set to true
 ---@param tbl1 table The first table to concat the second into
 ---@param tbl2 table The second table to concat into the first
----@param force? boolean If
+---@param force? boolean If tbl2 values should be taking over values from tbl1
 ---@return table # A new table with tbl2 concat into tbl1
+---@raise error if tbl1 is not a table<br/>
+---error if tbl2 is not a table<br/>
+---error if force is not a boolean
+---@usage
+---local tbl1 = {"one": 1, "three": 3}
+---local tbl2 = {"two": 2, 4: "four"}
+---local tbl3 = concat(tbl1, tbl2)
+--- -- tbl3 -> {"one": 1, "three": 3, "two": 2, 4: "four"}
 function M.concat(tbl1, tbl2, force)
+    if force == nil then force = false end
     assert(type(tbl1) == "table", "argument 'tbl1': must be a table")
     assert(type(tbl2) == "table", "argument 'tbl2': must be a table")
     assert(type(force) == "boolean", "argument 'force': must be a boolean")
@@ -26,11 +39,20 @@ function M.concat(tbl1, tbl2, force)
     return concat
 end
 
----Check if a table contains a key
+---Check if a table contains a key<br/>
 ---If the key is associated to a nil value, it will be considered as not here
 ---@param tbl table The table to search the key in
 ---@param key any The key to search in the table. This cannot be nil
 ---@return boolean # true if tbl contains the key key
+---@raise error if tbl is not a table<br/>
+---error if key is nil
+---@usage
+---local tbl = {1: "one", "two": 2}
+---if not contains(tbl, "two") then
+---    print("Table has no entry 'two'")
+---else
+---    print("Table has an entry 'two'")
+---end
 function M.contains(tbl, key)
     assert(type(tbl) == "table", "argument 'tbl': must be a table")
     assert(key ~= nil, "argument 'key': cannot be nil")
@@ -38,11 +60,16 @@ function M.contains(tbl, key)
     return tbl[key] ~= nil
 end
 
----Finds a key that is associated to the given value
+---Finds a key that is associated to the given value<br/>
 ---The first founded key with the value will be returned
 ---@param tbl table The table to search the value in
 ---@param value any The value to search in the table. This cannot be nil
 ---@return any|nil # The first key found with the given value if any, nil otherwise
+---@raise error if tbl is not a table<br/>
+---error if value is nil
+---@usage
+---local tbl = {1: "one", 2: "two"}
+---print(find(tbl, "two")) -- 2
 function M.find(tbl, value)
     assert(type(tbl) == "table", "argument 'tbl': must be a table")
     assert(value ~= nil, "argument 'value': cannot be nil")
