@@ -20,4 +20,21 @@ function M.concat(arr1, arr2)
     return concat
 end
 
+---Check if an array contains an element
+---@param arr table The array to search the element in
+---@param elem any The element to search in the array. This cannot be nil
+---@return boolean # true if arr contains elem, false otherwise
+function M.contains(arr, elem)
+    assert(type(arr) == "table", "argument 'arr': must be a table")
+    assert(elem ~= nil, "argument 'elem': cannot be nil")
+
+    for _,v in ipairs(arr) do
+        if v == elem then
+            return true
+        end
+    end
+
+    return false
+end
+
 return M
