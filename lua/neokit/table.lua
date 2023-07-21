@@ -1,9 +1,7 @@
-local utils = require("utils")
-
 local M = {}
 
 ---Concat tbl2 into tbl1
----For values with the same key, values from tbl1 will be taken over values from tbl2 unless 'force' argument is set to true
+---@note Values from tbl1 will be taken over values from tbl2 unless 'force' argument is set to true
 ---@param tbl1 table The first table to concat the second into
 ---@param tbl2 table The second table to concat into the first
 ---@param force? boolean If

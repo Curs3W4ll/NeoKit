@@ -1,7 +1,7 @@
 local M = {}
 
 ---Ensure the last character of a string
----If the given string already contains the given character, do nothing, otherwise, add the character at the end of the string
+---If the last character of the given string is correct do nothing, otherwise add the character at the end of the string
 ---@param str string The string to ensure the last character of
 ---@param char string The string to ensure the last character of
 ---@return string # A string containing the last character
