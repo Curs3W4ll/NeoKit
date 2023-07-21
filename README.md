@@ -31,7 +31,25 @@ require("lazy").setup({
 })
 ```
 
+## Usage
+
+Use it like any Lua module
+
+```lua
+local neokit = require("neokit")
+
+print(neokit.str.ensureLastChar("Hello", "!")) -- Hello!
+
+-- OR
+
+local str = require("neokit.str")
+
+print(str.ensureLastChar("Hello", "!")) -- Hello!
+```
+
 ## Modules
+
+You can find more details about modules at https://curs3w4ll.github.io/NeoKit/
 
 - `neokit.str`
 - `neokit.array`
