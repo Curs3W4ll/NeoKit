@@ -16,4 +16,7 @@ fmt-check:
 fmt:
 	stylua --color always .
 
+doc:
+	ldoc .
+
 .PHONY: check-install-inotifywait lint watch-lint format-check format
