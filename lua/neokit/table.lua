@@ -13,7 +13,7 @@ function M.concat(tbl1, tbl2, force)
 
     local concat = {}
 
-    for k,v in pairs(tbl1) do
+    for k, v in pairs(tbl1) do
         concat[k] = v
     end
     for k, v in pairs(tbl2) do
@@ -47,7 +47,7 @@ function M.find(tbl, value)
     assert(type(tbl) == "table", "argument 'tbl': must be a table")
     assert(value ~= nil, "argument 'value': cannot be nil")
 
-    for k,v in pairs(tbl) do
+    for k, v in pairs(tbl) do
         if v == value then
             return k
         end

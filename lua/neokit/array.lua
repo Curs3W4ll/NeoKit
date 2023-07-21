@@ -10,10 +10,10 @@ function M.concat(arr1, arr2)
 
     local concat = {}
 
-    for _,v in ipairs(arr1) do
+    for _, v in ipairs(arr1) do
         table.insert(concat, v)
     end
-    for _,v in ipairs(arr2) do
+    for _, v in ipairs(arr2) do
         table.insert(concat, v)
     end
 
@@ -28,7 +28,7 @@ function M.contains(arr, elem)
     assert(type(arr) == "table", "argument 'arr': must be a table")
     assert(elem ~= nil, "argument 'elem': cannot be nil")
 
-    for _,v in ipairs(arr) do
+    for _, v in ipairs(arr) do
         if v == elem then
             return true
         end
