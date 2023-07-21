@@ -41,3 +41,24 @@ jobs:
           sudo luarocks install luacheck
       - name: Lint
         run: sudo make lint
+
+  code-doc:
+    name: Generate code documentation
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Lua
+      uses: leafo/gh-actions-lua@v8
+      with:
+        luaVersion: 5.4
+    - name: Setup Lua Rocks
+      uses: leafo/gh-actions-luarocks@v4
+    - name: Setup dependencies
+      run: luarocks install ldoc
+    - name: Generate docs with LDoc
+      uses: lunarmodules/ldoc@v1
+    - name: Deploy on pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
