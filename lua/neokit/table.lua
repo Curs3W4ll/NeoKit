@@ -19,7 +19,9 @@ local M = {}
 ---local tbl3 = concat(tbl1, tbl2)
 --- -- tbl3 -> {"one": 1, "three": 3, "two": 2, 4: "four"}
 function M.concat(tbl1, tbl2, force)
-    if force == nil then force = false end
+    if force == nil then
+        force = false
+    end
     assert(type(tbl1) == "table", "argument 'tbl1': must be a table")
     assert(type(tbl2) == "table", "argument 'tbl2': must be a table")
     assert(type(force) == "boolean", "argument 'force': must be a boolean")
