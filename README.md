@@ -1,3 +1,5 @@
+[![CI](https://github.com/Curs3W4ll/NeoKit/workflows/CI/badge.svg)](https://github.com/Curs3W4ll/NeoKit/actions)
+
 # NeoKit
 
 A standard module containing utility functions.  
