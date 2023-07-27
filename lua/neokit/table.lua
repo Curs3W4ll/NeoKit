@@ -89,16 +89,16 @@ end
 ---@param obj any The object to copy
 ---@return any # A deep copy of obj
 local function copy_(obj)
-  if not obj or type(obj) ~= "table" then
-      return obj
-  end
+    if not obj or type(obj) ~= "table" then
+        return obj
+    end
 
-  local res = setmetatable({}, getmetatable(obj))
-  for k, v in pairs(obj) do
-      res[copy_(k)] = copy_(v)
-  end
+    local res = setmetatable({}, getmetatable(obj))
+    for k, v in pairs(obj) do
+        res[copy_(k)] = copy_(v)
+    end
 
-  return res
+    return res
 end
 ---Deep copy a table with all its content
 ---@param tbl table The table to copy
