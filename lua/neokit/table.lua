@@ -85,4 +85,35 @@ function M.find(tbl, value)
     return nil
 end
 
+---Internal function use to recursively copy a table
+---@param obj any The object to copy
+---@return any # A deep copy of obj
+local function copy_(obj)
+  if not obj or type(obj) ~= "table" then
+      return obj
+  end
+
+  local res = setmetatable({}, getmetatable(obj))
+  for k, v in pairs(obj) do
+      res[copy_(k)] = copy_(v)
+  end
+
+  return res
+end
+---Deep copy a table with all its content
+---@param tbl table The table to copy
+---@return table # A new table that is a clone of tbl
+---@raise error if tbl is not a table
+---@usage
+---local tbl = { "one": 1, "two": 2 }
+---local tbl_copy = copy(tbl)
+---tbl["one"] = 11
+---print(tbl["one"]) -- 11
+---print(tbl_copy["one"]) -- 1
+function M.copy(tbl)
+    assert(type(tbl) == "table", "argument 'tbl': must be a table")
+
+    return copy_(tbl)
+end
+
 return M
