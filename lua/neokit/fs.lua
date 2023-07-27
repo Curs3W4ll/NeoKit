@@ -17,12 +17,13 @@ local M = {}
 function M.directoryExists(path)
     assert(type(path) == "string", "argument 'path': must be a string")
 
-    return not vim.fn.isdirectory(path) == 0
+    return vim.fn.isdirectory(path) ~= 0
 end
 
 ---Check if a file exists
 ---@param path string The path that contains the file to find
----@param filename string|nil The name of the file to check if it exists. If this argument is nil, the filename should be contained inside path
+---@param filename string|nil The name of the file to check if it exists.<br/>
+---If this argument is nil, the filename should be contained inside path
 ---@return boolean # true if file exists, false otherwise (non existent or directory)
 ---@raise error if path is not a string<br/>
 ---error if filename is not nil and not a string
