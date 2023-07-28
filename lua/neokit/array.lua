@@ -57,4 +57,52 @@ function M.contains(arr, elem)
     return false
 end
 
+---Merge keys of tables into a simple array
+---@param arr table The array containing tables to merge keys from
+---@param keys any|table The keys to build the new array from values<br/>
+---You can submit one or multiple keys through a table.<br/>
+---If multiple keys are submitted, the first found one will be used, others will be used as fallbacks
+---@raise error if arr is not a table<br/>
+---error if keys is nil
+---@usage
+---local arr = {
+---    {
+---        name = "Component1",
+---        description = "This is the description of the Component1",
+---        alias = "C1",
+---    },
+---    {
+---        name = "Component2",
+---        description = "This is the description of the Component2",
+---        alias = "C2",
+---    },
+---    {
+---        name = "Component3",
+---        description = "This is the description of the Component3",
+---    },
+---}
+---local test1 = mergeTables(arr, "name") -- { "Component1", "Component2", "Component3" }
+---local test2 = mergeTables(arr, { "name", "alias" }) -- { "Component1", "Component2", "Component3" }
+---local test3 = mergeTables(arr, { "alias", "name" }) -- { "C1", "C2", "Component3" }
+function M.mergeTables(arr, keys)
+    assert(type(arr) == "table", "argument 'arr': must be a table")
+    assert(keys ~= nil, "argument 'keys': cannot be nil")
+
+    if type(keys) ~= "table" then keys = { keys } end
+
+    local list = {}
+
+    for _,elem in ipairs(arr) do
+        if type(elem) ~= "table" then break end
+        for _,key in ipairs(keys) do
+            if require("neokit.table").contains(elem, key) then
+                table.insert(list, elem[key])
+                break
+            end
+        end
+    end
+
+    return list
+end
+
 return M
