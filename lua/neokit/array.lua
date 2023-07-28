@@ -88,13 +88,17 @@ function M.mergeTables(arr, keys)
     assert(type(arr) == "table", "argument 'arr': must be a table")
     assert(keys ~= nil, "argument 'keys': cannot be nil")
 
-    if type(keys) ~= "table" then keys = { keys } end
+    if type(keys) ~= "table" then
+        keys = { keys }
+    end
 
     local list = {}
 
-    for _,elem in ipairs(arr) do
-        if type(elem) ~= "table" then break end
-        for _,key in ipairs(keys) do
+    for _, elem in ipairs(arr) do
+        if type(elem) ~= "table" then
+            break
+        end
+        for _, key in ipairs(keys) do
             if require("neokit.table").contains(elem, key) then
                 table.insert(list, elem[key])
                 break
