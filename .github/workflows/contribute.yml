@@ -24,6 +24,25 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y luarocks
-          sudo luarocks install luacheck
+          luarocks install luacheck
       - name: Lint
-        run: sudo make lint
+        run: make lint
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Neovim
+        shell: bash
+        run: |
+          mkdir -p /tmp/nvim
+          wget -q https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage -O /tmp/nvim/nvim.appimage
+          cd /tmp/nvim
+          chmod a+x ./nvim.appimage
+          ./nvim.appimage --appimage-extract
+          echo "/tmp/nvim/squashfs-root/usr/bin/" >> $GITHUB_PATH
+
+      - name: Run tests
+        run: |
+          make test
