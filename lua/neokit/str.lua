@@ -13,8 +13,8 @@ local M = {}
 ---error if char is not a char
 ---@usage print(ensureLastChar("Hello", "!") -- Hello!
 function M.ensureLastChar(str, char)
-    assert(type(str) == "string", "argument 'str': must be a string")
-    assert(type(char) == "string", "argument 'char': must be a string")
+    if type(str) ~= "string" then error("argument 'str': must be a string") end
+    if type(char) ~= "string" then error("argument 'char': must be a string") end
 
     if string.len(char) > 1 or string.len(char) < 0 then
         error("argument 'char': must be one character long")
@@ -40,8 +40,8 @@ end
 ---    print("The string does not contains 'Mario'")
 ---end
 function M.contains(str, pattern)
-    assert(type(str) == "string", "argument 'str': must be a string")
-    assert(type(pattern) == "string", "argument 'pattern': must be a string")
+    if type(str) ~= "string" then error("argument 'str': must be a string") end
+    if type(pattern) ~= "string" then error("argument 'pattern': must be a string") end
 
     return vim.fn.match(str, pattern) >= 0
 end

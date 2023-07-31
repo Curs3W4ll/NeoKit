@@ -16,8 +16,8 @@ local M = {}
 ---local arr3 = concat(arr1, arr2)
 --- -- arr3 -> {"one", "three", "two", 4}
 function M.concat(arr1, arr2)
-    assert(type(arr1) == "table", "argument 'arr1': must be a table")
-    assert(type(arr2) == "table", "argument 'arr2': must be a table")
+    if type(arr1) == "table" then error("argument 'arr1': must be a table") end
+    if type(arr2) ~= "table" then error("argument 'arr2': must be a table") end
 
     local concat = {}
 
@@ -45,8 +45,8 @@ end
 ---    print("Array contains a 3")
 ---end
 function M.contains(arr, elem)
-    assert(type(arr) == "table", "argument 'arr': must be a table")
-    assert(elem ~= nil, "argument 'elem': cannot be nil")
+    if type(arr) ~= "table" then error("argument 'arr': must be a table") end
+    if elem == nil then error("argument 'elem': cannot be nil") end
 
     for _, v in ipairs(arr) do
         if v == elem then
@@ -85,8 +85,8 @@ end
 ---local test2 = mergeTables(arr, { "name", "alias" }) -- { "Component1", "Component2", "Component3" }
 ---local test3 = mergeTables(arr, { "alias", "name" }) -- { "C1", "C2", "Component3" }
 function M.mergeTables(arr, keys)
-    assert(type(arr) == "table", "argument 'arr': must be a table")
-    assert(keys ~= nil, "argument 'keys': cannot be nil")
+    if type(arr) ~= "table" then error("argument 'arr': must be a table") end
+    if keys == nil then error("argument 'keys': cannot be nil") end
 
     if type(keys) ~= "table" then
         keys = { keys }
