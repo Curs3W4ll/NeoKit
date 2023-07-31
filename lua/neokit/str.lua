@@ -43,6 +43,10 @@ function M.contains(str, pattern)
     if type(str) ~= "string" then error("argument 'str': must be a string") end
     if type(pattern) ~= "string" then error("argument 'pattern': must be a string") end
 
+    if pattern == "" then
+        return false
+    end
+
     return vim.fn.match(str, pattern) >= 0
 end
 
