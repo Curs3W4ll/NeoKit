@@ -21,7 +21,7 @@ doc: # Generate new version of the code documentation (public/)
 
 test: # Run tests on the project
 	nvim --version
-	nvim --headless -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/ { minimal_init = 'tests/minimal_init.lua', sequential = true }"
+	nvim --headless -u tests/minimal_init.lua -c "PlenaryBustedDirectory tests/$(TEST_FILE) { minimal_init = 'tests/minimal_init.lua', sequential = true }"
 
 watch-test: check-install-inotifywait # Automatically start tests when code is updated
 	@inotifywait -m -r -e close_write --format %e lua/ tests/ | \
