@@ -154,12 +154,42 @@ function M.allOf(tbl, fn, ...)
             error("argument 'fn': returned something else than a boolean")
         end
 
-        if result == false then
+        if not result then
             return false
         end
     end
 
     return true
+end
+
+---Check if one of the key/value pair of tbl produce a true return of fn
+---@param tbl table The tbl to test key/value pairs with fn
+---@param fn function The function to call with tbl's key/value pairs.<br/>
+---This function should return a boolean and take a key of tbl as first argument and a value of tbl as second argument
+---@param ... any Additional arguments to pass to fn
+---@return boolean # true if one of the calls of fn with each of tbl's key/value pairs returned true, false otherwise
+---@raise error if tbl is not a table<br/>
+---error if fn is not a function
+function M.anyOf(tbl, fn, ...)
+    if type(tbl) ~= "table" then
+        error("argument 'tbl': must be a table")
+    end
+    if type(fn) ~= "function" then
+        error("argument 'fn': must be a function")
+    end
+
+    for key,value in pairs(tbl) do
+        local result = fn(key, value, ...)
+        if type(result) ~= "boolean" then
+            error("argument 'fn': returned something else than a boolean")
+        end
+
+        if result then
+            return true
+        end
+    end
+
+    return false
 end
 
 return M
