@@ -146,7 +146,7 @@ function M.allOf(arr, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for _,elem in ipairs(arr) do
+    for _, elem in ipairs(arr) do
         local result = fn(elem, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -186,7 +186,7 @@ function M.anyOf(arr, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for _,elem in ipairs(arr) do
+    for _, elem in ipairs(arr) do
         local result = fn(elem, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -224,7 +224,7 @@ function M.noneOf(arr, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for _,elem in ipairs(arr) do
+    for _, elem in ipairs(arr) do
         local result = fn(elem, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -258,7 +258,7 @@ function M.forEach(arr, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for _,elem in ipairs(arr) do
+    for _, elem in ipairs(arr) do
         fn(elem, ...)
     end
 end

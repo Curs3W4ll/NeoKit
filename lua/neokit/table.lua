@@ -158,7 +158,7 @@ function M.allOf(tbl, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for key,value in pairs(tbl) do
+    for key, value in pairs(tbl) do
         local result = fn(key, value, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -198,7 +198,7 @@ function M.anyOf(tbl, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for key,value in pairs(tbl) do
+    for key, value in pairs(tbl) do
         local result = fn(key, value, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -236,7 +236,7 @@ function M.noneOf(tbl, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for key,value in pairs(tbl) do
+    for key, value in pairs(tbl) do
         local result = fn(key, value, ...)
         if type(result) ~= "boolean" then
             error("argument 'fn': returned something else than a boolean")
@@ -272,7 +272,7 @@ function M.forEach(tbl, fn, ...)
         error("argument 'fn': must be a function")
     end
 
-    for key,value in pairs(tbl) do
+    for key, value in pairs(tbl) do
         fn(key, value, ...)
     end
 end
