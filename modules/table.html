@@ -80,6 +80,22 @@ The first founded key with the value will be returned</td>
 	<td class="name" nowrap><a href="#copy">copy (tbl)</a></td>
 	<td class="summary">Deep copy a table with all its content</td>
 	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#allOf">allOf (tbl, fn, ...)</a></td>
+	<td class="summary">Ensure every key/value pair of tbl produce a true return of fn</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#anyOf">anyOf (tbl, fn, ...)</a></td>
+	<td class="summary">Check if one of the key/value pair of tbl produce a true return of fn</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#noneOf">noneOf (tbl, fn, ...)</a></td>
+	<td class="summary">Check if all of tbl&rsquo;s key/value pais produce a false return of fn</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#forEach">forEach (tbl, fn, ...)</a></td>
+	<td class="summary">Execute a function with all key/value pair of a table</td>
+	</tr>
 </table>
 
 <br/>
@@ -125,10 +141,10 @@ error if force is not a boolean
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example"><span class="keyword">local</span> tbl1 = {<span class="string">"one"</span>: <span class="number">1</span>, <span class="string">"three"</span>: <span class="number">3</span>}
-<span class="keyword">local</span> tbl2 = {<span class="string">"two"</span>: <span class="number">2</span>, <span class="number">4</span>: <span class="string">"four"</span>}
+        <pre class="example"><span class="keyword">local</span> tbl1 = { one = <span class="number">1</span>, three = <span class="number">3</span> }
+<span class="keyword">local</span> tbl2 = { two = <span class="number">2</span>, <span class="number">4</span> = <span class="string">"four"</span> }
 <span class="keyword">local</span> tbl3 = <span class="function-name">concat</span>(tbl1, tbl2)
- <span class="comment">-- tbl3 -&gt; {"one": 1, "three": 3, "two": 2, 4: "four"}</span></pre>
+ <span class="comment">-- tbl3 -&gt; { one = 1, three = 3, two = 2, 4 = "four" }</span></pre>
     </ul>
 
 </dd>
@@ -164,7 +180,7 @@ error if key is nil
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example"><span class="keyword">local</span> tbl = {<span class="number">1</span>: <span class="string">"one"</span>, <span class="string">"two"</span>: <span class="number">2</span>}
+        <pre class="example"><span class="keyword">local</span> tbl = { <span class="number">1</span> = <span class="string">"one"</span>, <span class="string">"two"</span> = <span class="number">2</span> }
 <span class="keyword">if</span> <span class="keyword">not</span> <span class="function-name">contains</span>(tbl, <span class="string">"two"</span>) <span class="keyword">then</span>
     <span class="global">print</span>(<span class="string">"Table has no entry 'two'"</span>)
 <span class="keyword">else</span>
@@ -205,7 +221,7 @@ error if value is nil
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example"><span class="keyword">local</span> tbl = {<span class="number">1</span>: <span class="string">"one"</span>, <span class="number">2</span>: <span class="string">"two"</span>}
+        <pre class="example"><span class="keyword">local</span> tbl = { <span class="number">1</span> = <span class="string">"one"</span>, <span class="number">2</span> = <span class="string">"two"</span> }
 <span class="global">print</span>(<span class="function-name">find</span>(tbl, <span class="string">"two"</span>)) <span class="comment">-- 2</span></pre>
     </ul>
 
@@ -237,11 +253,189 @@ error if value is nil
 
     <h3>Usage:</h3>
     <ul>
-        <pre class="example"><span class="keyword">local</span> tbl = { <span class="string">"one"</span>: <span class="number">1</span>, <span class="string">"two"</span>: <span class="number">2</span> }
+        <pre class="example"><span class="keyword">local</span> tbl = { one = <span class="number">1</span>, two = <span class="number">2</span> }
 <span class="keyword">local</span> tbl_copy = <span class="function-name">copy</span>(tbl)
 tbl[<span class="string">"one"</span>] = <span class="number">11</span>
 <span class="global">print</span>(tbl[<span class="string">"one"</span>]) <span class="comment">-- 11
 </span><span class="global">print</span>(tbl_copy[<span class="string">"one"</span>]) <span class="comment">-- 1</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "allOf"></a>
+    <strong>allOf (tbl, fn, ...)</strong>
+    </dt>
+    <dd>
+    Ensure every key/value pair of tbl produce a true return of fn
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+         table The tbl to test key/value pairs with fn
+        </li>
+        <li><span class="parameter">fn</span>
+         function The function to call with tbl&rsquo;s key/value pairs.<br/>
+This function should return a boolean and take a key of tbl as first argument and a value of tbl as second argument
+        </li>
+        <li><span class="parameter">...</span>
+         any Additional arguments to pass to fn
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean # true if all call of fn with each of tbl&rsquo;s key/value pairs returned true, false otherwise
+    </ol>
+
+    <h3>Raises:</h3>
+     error if tbl is not a table<br/>
+error if fn is not a function<br/>
+error if fn returned something else than a boolean
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> tbl = { one = <span class="number">1</span>, two = <span class="number">2</span> }
+<span class="keyword">if</span> <span class="function-name">allOf</span>(tbl, <span class="keyword">function</span>(key, value)
+    <span class="keyword">return</span> <span class="global">type</span>(value) == <span class="string">"number"</span>
+<span class="keyword">end</span>)
+    <span class="global">print</span>(<span class="string">"All table values are numbers"</span>)
+<span class="keyword">else</span>
+    <span class="global">print</span>(<span class="string">"One or more table value(s) is not a number"</span>)
+<span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "anyOf"></a>
+    <strong>anyOf (tbl, fn, ...)</strong>
+    </dt>
+    <dd>
+    Check if one of the key/value pair of tbl produce a true return of fn
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+         table The tbl to test key/value pairs with fn
+        </li>
+        <li><span class="parameter">fn</span>
+         function The function to call with tbl&rsquo;s key/value pairs.<br/>
+This function should return a boolean and take a key of tbl as first argument and a value of tbl as second argument
+        </li>
+        <li><span class="parameter">...</span>
+         any Additional arguments to pass to fn
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean # true if one of the calls of fn with each of tbl&rsquo;s key/value pairs returned true, false otherwise
+    </ol>
+
+    <h3>Raises:</h3>
+     error if tbl is not a table<br/>
+error if fn is not a function<br/>
+error if fn returned something else than a boolean
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> tbl = { one = <span class="number">1</span>, two = <span class="number">2</span>, hello = <span class="string">"world"</span> }
+<span class="keyword">if</span> <span class="function-name">anyOf</span>(tbl, <span class="keyword">function</span>(key, value)
+    <span class="keyword">return</span> <span class="global">type</span>(value) == <span class="string">"string"</span>
+<span class="keyword">end</span>)
+    <span class="global">print</span>(<span class="string">"One or more of the table value(s) is a string"</span>)
+<span class="keyword">else</span>
+    <span class="global">print</span>(<span class="string">"None of the table value is a string"</span>)
+<span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "noneOf"></a>
+    <strong>noneOf (tbl, fn, ...)</strong>
+    </dt>
+    <dd>
+    Check if all of tbl&rsquo;s key/value pais produce a false return of fn
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+         table The tbl to test key/value pairs with fn
+        </li>
+        <li><span class="parameter">fn</span>
+         function The function to call with tbl&rsquo;s key/value pairs.<br/>
+This function should return a boolean and take a key of tbl as first argument and a value of tbl as second argument
+        </li>
+        <li><span class="parameter">...</span>
+         any Additional arguments to pass to fn
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        boolean # true if none of the calls of fn with each of tbl&rsquo;s key/value returned true, false otherwise
+    </ol>
+
+    <h3>Raises:</h3>
+     error if tbl is not a table<br/>
+error if fn is not a function<br/>
+error if fn returned something else than a boolean
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> tbl = { one = <span class="number">1</span>, two = <span class="number">2</span> }
+<span class="keyword">if</span> <span class="function-name">noneOf</span>(tbl, <span class="keyword">function</span>(key, value)
+    <span class="keyword">return</span> <span class="global">type</span>(value) == <span class="string">"string"</span>
+<span class="keyword">end</span>)
+    <span class="global">print</span>(<span class="string">"The table does not contains string values"</span>)
+<span class="keyword">end</span></pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "forEach"></a>
+    <strong>forEach (tbl, fn, ...)</strong>
+    </dt>
+    <dd>
+    Execute a function with all key/value pair of a table
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tbl</span>
+         table The tbl to test key/value pairs with fn
+        </li>
+        <li><span class="parameter">fn</span>
+         function The function to call with tbl&rsquo;s key/value pairs.<br/>
+This function should take a key of tbl as first argument and a value of tbl as second argument
+        </li>
+        <li><span class="parameter">...</span>
+         any Additional arguments to pass to fn
+        </li>
+    </ul>
+
+
+    <h3>Raises:</h3>
+    error if tbl is not a table<br/>
+error if fn is not a function
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example"><span class="keyword">local</span> tbl = { one = <span class="number">1</span>, two = <span class="number">2</span> }
+<span class="function-name">forEach</span>(tbl, <span class="keyword">function</span>(key, value)
+    <span class="global">print</span>(key .. <span class="string">": "</span> .. value)
+<span class="keyword">end</span>)
+ <span class="comment">-- one: 1
+</span> <span class="comment">-- two: 2</span></pre>
     </ul>
 
 </dd>
@@ -252,7 +446,7 @@ tbl[<span class="string">"one"</span>] = <span class="number">11</span>
 </div> <!-- id="main" -->
 <div id="about">
 <i>generated by <a href="http://github.com/lunarmodules/LDoc">LDoc 1.5.0</a></i>
-<i style="float:right;">Last updated 2023-08-01 13:24:08 </i>
+<i style="float:right;">Last updated 2023-08-01 16:14:00 </i>
 </div> <!-- id="about" -->
 </div> <!-- id="container" -->
 </body>
