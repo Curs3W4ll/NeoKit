@@ -11,10 +11,10 @@ local M = {}
 ---@raise error if arr1 is not a table<br/>
 ---error if arr2 is not a table
 ---@usage
----local arr1 = {"one", "three"}
----local arr2 = {"two", 4}
+---local arr1 = { "one", "three" }
+---local arr2 = { "two", 4 }
 ---local arr3 = concat(arr1, arr2)
---- -- arr3 -> {"one", "three", "two", 4}
+--- -- arr3 -> { "one", "three", "two", 4 }
 function M.concat(arr1, arr2)
     if type(arr1) ~= "table" then
         error("argument 'arr1': must be a table")
@@ -42,7 +42,7 @@ end
 ---@raise error if arr is not a table<br/>
 ---error if elem is nil
 ---@usage
----local arr = {1, 2, 4}
+---local arr = { 1, 2, 4 }
 ---if not contains(arr, 3) then
 ---    print("Array does not contains a 3")
 ---else
@@ -127,7 +127,17 @@ end
 ---@param ... any Additional arguments to pass to fn
 ---@return boolean # true if all call of fn with each of arr's elements returned true, false otherwise
 ---@raise error if arr is not a table<br/>
----error if fn is not a function
+---error if fn is not a function<br/>
+---error if fn returned something else than a boolean
+---@usage
+---local arr = { 1, 2, 3 }
+---if allOf(arr, function(elem)
+---    return type(elem) == "number"
+---end)
+---    print("All array elements are numbers")
+---else
+---    print("One or more array element(s) is not a number")
+---end
 function M.allOf(arr, fn, ...)
     if type(arr) ~= "table" then
         error("argument 'arr': must be a table")
@@ -157,7 +167,17 @@ end
 ---@param ... any Additional arguments to pass to fn
 ---@return boolean # true if one of the calls of fn with each of arr's elements returned true, false otherwise
 ---@raise error if arr is not a table<br/>
----error if fn is not a function
+---error if fn is not a function<br/>
+---error if fn returned something else than a boolean
+---@usage
+---local arr = { 1, 2, "hello" }
+---if anyOf(arr, function(elem)
+---    return type(value) == "string"
+---end)
+---    print("One or more of the array element(s) is a string")
+---else
+---    print("None of the array element is a string")
+---end
 function M.anyOf(arr, fn, ...)
     if type(arr) ~= "table" then
         error("argument 'arr': must be a table")
@@ -187,7 +207,15 @@ end
 ---@param ... any Additional arguments to pass to fn
 ---@return boolean # true if none of the calls of fn with each of arr's elements returned true, false otherwise
 ---@raise error if arr is not a table<br/>
----error if fn is not a function
+---error if fn is not a function<br/>
+---error if fn returned something else than a boolean
+---@usage
+---local arr = { 1, 2, 3 }
+---if noneOf(arr, function(elem)
+---    return type(elem) == "string"
+---end)
+---    print("The array does not contains string values")
+---end
 function M.noneOf(arr, fn, ...)
     if type(arr) ~= "table" then
         error("argument 'arr': must be a table")
@@ -208,6 +236,31 @@ function M.noneOf(arr, fn, ...)
     end
 
     return true
+end
+
+---Execute a function with all elements of an array
+---@param arr table The array to test element with fn
+---@param fn function The function to call with arr elements.<br/>
+---This function should take an element of arr as first argument
+---@param ... any Additional arguments to pass to fn
+---@raise error if arr is not a table<br/>
+---error if fn is not a function
+---@usage
+---local arr = { 1, 2, 3 }
+---forEach(arr, print)
+--- -- 1
+--- -- 2
+function M.forEach(arr, fn, ...)
+    if type(arr) ~= "table" then
+        error("argument 'arr': must be a table")
+    end
+    if type(fn) ~= "function" then
+        error("argument 'fn': must be a function")
+    end
+
+    for _,elem in ipairs(arr) do
+        fn(elem, ...)
+    end
 end
 
 return M

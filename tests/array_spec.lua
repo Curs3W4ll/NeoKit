@@ -234,10 +234,10 @@ describe("[allOf]:", function()
         local arr = { 1, 2, 3 }
         local passedElems = {}
 
-        assert.is.True(m.allOf(arr, function(elem)
+        m.allOf(arr, function(elem)
             table.insert(passedElems, elem)
             return true
-        end))
+        end)
         assert.are.same(passedElems, arr)
     end)
 
@@ -257,10 +257,10 @@ describe("[allOf]:", function()
         local arr = { 1, 2, 3 }
         local additionalArg = { "Another", "additional", "argument" }
 
-        assert.is.True(m.allOf(arr, function(_, fnAdditionalArg)
+        m.allOf(arr, function(_, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
             return true
-        end, additionalArg))
+        end, additionalArg)
     end)
 end)
 
@@ -298,10 +298,10 @@ describe("[anyOf]:", function()
         local arr = { 1, 2, 3 }
         local passedElems = {}
 
-        assert.is.False(m.anyOf(arr, function(elem)
+        m.anyOf(arr, function(elem)
             table.insert(passedElems, elem)
             return false
-        end))
+        end)
         assert.are.same(passedElems, arr)
     end)
 
@@ -321,10 +321,10 @@ describe("[anyOf]:", function()
         local arr = { 1, 2, 3 }
         local additionalArg = { "Another", "additional", "argument" }
 
-        assert.is.True(m.anyOf(arr, function(_, fnAdditionalArg)
+        m.anyOf(arr, function(_, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
             return true
-        end, additionalArg))
+        end, additionalArg)
     end)
 end)
 
@@ -362,10 +362,10 @@ describe("[noneOf]:", function()
         local arr = { 1, 2, 3 }
         local passedElems = {}
 
-        assert.is.True(m.noneOf(arr, function(elem)
+        m.noneOf(arr, function(elem)
             table.insert(passedElems, elem)
             return false
-        end))
+        end)
         assert.are.same(passedElems, arr)
     end)
 
@@ -385,9 +385,54 @@ describe("[noneOf]:", function()
         local arr = { 1, 2, 3 }
         local additionalArg = { "Another", "additional", "argument" }
 
-        assert.is.True(m.noneOf(arr, function(_, fnAdditionalArg)
+        m.noneOf(arr, function(_, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
             return false
-        end, additionalArg))
+        end, additionalArg)
+    end)
+end)
+
+describe("[forEach]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.forEach() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.forEach(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.forEach({ 1, 2 }) end)
+        end)
+
+        it("Should throw when argument 2 is not a function", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.forEach({ 1, 2 }, 2) end)
+        end)
+    end)
+
+    it("Should call function with every arr's elements", function()
+        local arr = { 1, 2, 3 }
+        local passedElems = {}
+
+        m.forEach(arr, function(elem)
+            table.insert(passedElems, elem)
+        end)
+        assert.are.same(passedElems, arr)
+    end)
+
+    it("Should pass additional arguments has given to forEach", function()
+        local arr = { 1, 2, 3 }
+        local additionalArg = { "Another", "additional", "argument" }
+
+        m.forEach(arr, function(_, fnAdditionalArg)
+            assert.is.equal(additionalArg, fnAdditionalArg)
+        end, additionalArg)
     end)
 end)
