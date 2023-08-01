@@ -120,4 +120,34 @@ function M.mergeTables(arr, keys)
     return list
 end
 
+---Ensure every element of arr produce a true return of fn
+---@param arr table The array to test element with fn
+---@param fn function The function to call with arr elements.<br/>
+---This function should return a boolean and take an element of arr as first argument
+---@param ... any Additional arguments to pass to fn
+---@return boolean # true if all call of fn with each of arr's elements returned true, false otherwise
+---@raise error if arr is not a table<br/>
+---error if fn is not a function
+function M.allOf(arr, fn, ...)
+    if type(arr) ~= "table" then
+        error("argument 'arr': must be a table")
+    end
+    if type(fn) ~= "function" then
+        error("argument 'fn': must be a function")
+    end
+
+    for _,elem in ipairs(arr) do
+        local result = fn(elem, ...)
+        if type(result) ~= "boolean" then
+            error("argument 'fn': returned something else than a boolean")
+        end
+
+        if result == false then
+            return false
+        end
+    end
+
+    return true
+end
+
 return M
