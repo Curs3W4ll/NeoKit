@@ -47,6 +47,9 @@ function M.fileExists(path, filename)
     if filename ~= nil and type(filename) ~= "string" then error("argument 'filename': must be a string (or nil)") end
 
     if filename == nil then
+        if M.directoryExists(path) then
+            return false
+        end
         local f = io.open(path, "r")
         if f == nil then
             return false
@@ -91,7 +94,7 @@ function M.ensureDirectory(path)
         if M.fileExists(path) then
             return false -- Cannot create a directory (is already a file)
         end
-        vim.cmd("silent !mkdir " .. path)
+        vim.cmd("silent ! mkdir -p " .. path)
     end
 
     return true
