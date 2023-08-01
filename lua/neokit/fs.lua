@@ -15,7 +15,9 @@ local M = {}
 ---    print("My dir does not exists :(
 ---end
 function M.directoryExists(path)
-    if type(path) ~= "string" then error("argument 'path': must be a string") end
+    if type(path) ~= "string" then
+        error("argument 'path': must be a string")
+    end
 
     return vim.fn.isdirectory(path) ~= 0
 end
@@ -43,8 +45,12 @@ end
 ---    print("My file does not exists :(")
 ---end
 function M.fileExists(path, filename)
-    if type(path) ~= "string" then error("argument 'path': must be a string") end
-    if filename ~= nil and type(filename) ~= "string" then error("argument 'filename': must be a string (or nil)") end
+    if type(path) ~= "string" then
+        error("argument 'path': must be a string")
+    end
+    if filename ~= nil and type(filename) ~= "string" then
+        error("argument 'filename': must be a string (or nil)")
+    end
 
     if filename == nil then
         if M.directoryExists(path) then
@@ -88,7 +94,9 @@ end
 ---    print("Yes")
 ---end
 function M.ensureDirectory(path)
-    if type(path) ~= "string" then error("argument 'path': must be a string") end
+    if type(path) ~= "string" then
+        error("argument 'path': must be a string")
+    end
 
     if not M.directoryExists(path) then
         if M.fileExists(path) then

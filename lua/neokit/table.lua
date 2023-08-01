@@ -22,9 +22,15 @@ function M.concat(tbl1, tbl2, force)
     if force == nil then
         force = false
     end
-    if type(tbl1) ~= "table" then error("argument 'tbl1': must be a table") end
-    if type(tbl2) ~= "table" then error("argument 'tbl2': must be a table") end
-    if type(force) ~= "boolean" then error("argument 'force': must be a boolean") end
+    if type(tbl1) ~= "table" then
+        error("argument 'tbl1': must be a table")
+    end
+    if type(tbl2) ~= "table" then
+        error("argument 'tbl2': must be a table")
+    end
+    if type(force) ~= "boolean" then
+        error("argument 'force': must be a boolean")
+    end
 
     local concat = {}
 
@@ -56,8 +62,12 @@ end
 ---    print("Table has an entry 'two'")
 ---end
 function M.contains(tbl, key)
-    if type(tbl) ~= "table" then error("argument 'tbl': must be a table") end
-    if key == nil then error("argument 'key': cannot be nil") end
+    if type(tbl) ~= "table" then
+        error("argument 'tbl': must be a table")
+    end
+    if key == nil then
+        error("argument 'key': cannot be nil")
+    end
 
     return tbl[key] ~= nil
 end
@@ -73,8 +83,12 @@ end
 ---local tbl = {1: "one", 2: "two"}
 ---print(find(tbl, "two")) -- 2
 function M.find(tbl, value)
-    if type(tbl) ~= "table" then error("argument 'tbl': must be a table") end
-    if value == nil then error("argument 'value': cannot be nil") end
+    if type(tbl) ~= "table" then
+        error("argument 'tbl': must be a table")
+    end
+    if value == nil then
+        error("argument 'value': cannot be nil")
+    end
 
     for k, v in pairs(tbl) do
         if v == value then
@@ -111,7 +125,9 @@ end
 ---print(tbl["one"]) -- 11
 ---print(tbl_copy["one"]) -- 1
 function M.copy(tbl)
-    if type(tbl) ~= "table" then error("argument 'tbl': must be a table") end
+    if type(tbl) ~= "table" then
+        error("argument 'tbl': must be a table")
+    end
 
     return copy_(tbl)
 end
