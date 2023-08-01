@@ -24,14 +24,14 @@ describe("[directoryExists]:", function()
     it("Should return true when path is an empty directory", function()
         os.execute("mkdir -p " .. test_path)
 
-        assert.True(m.directoryExists(test_path))
+        assert.is.True(m.directoryExists(test_path))
     end)
 
     it("Should return true when path is a non-empty directory", function()
         os.execute("mkdir -p " .. test_path)
         os.execute("touch " .. test_path .. "/test.file")
 
-        assert.True(m.directoryExists(test_path))
+        assert.is.True(m.directoryExists(test_path))
     end)
 
     -- False cases
@@ -85,7 +85,7 @@ describe("[fileExists]:", function()
         os.execute("mkdir -p " .. test_path)
         os.execute("touch " .. test_filepath)
 
-        assert.True(m.fileExists(test_filepath))
+        assert.is.True(m.fileExists(test_filepath))
     end)
 
     it("Should return true when path is a non-empty file", function()
@@ -93,7 +93,7 @@ describe("[fileExists]:", function()
         os.execute("touch " .. test_filepath)
         os.execute("echo Hello world > " .. test_filepath)
 
-        assert.True(m.fileExists(test_filepath))
+        assert.is.True(m.fileExists(test_filepath))
     end)
 
     -- True cases | 2 arguments
@@ -101,7 +101,7 @@ describe("[fileExists]:", function()
         os.execute("mkdir -p " .. test_path)
         os.execute("touch " .. test_filepath)
 
-        assert.True(m.fileExists(test_path, test_file))
+        assert.is.True(m.fileExists(test_path, test_file))
     end)
 
     it("Should return true when filename is a non-empty file in path", function()
@@ -109,7 +109,7 @@ describe("[fileExists]:", function()
         os.execute("touch " .. test_filepath)
         os.execute("echo Hello world > " .. test_filepath)
 
-        assert.True(m.fileExists(test_path, test_file))
+        assert.is.True(m.fileExists(test_path, test_file))
     end)
 
     -- False cases | 1 argument
@@ -167,21 +167,21 @@ describe("[ensureDirectory]:", function()
 
     -- True cases
     it("Should create a directory when it does not exists", function()
-        assert.True(m.ensureDirectory(test_path))
-        assert.True(m.directoryExists(test_path))
+        assert.is.True(m.ensureDirectory(test_path))
+        assert.is.True(m.directoryExists(test_path))
     end)
 
     it("Should do nothing when the directory already exists", function()
         os.execute("mkdir -p " .. test_path)
 
-        assert.True(m.ensureDirectory(test_path))
-        assert.True(m.directoryExists(test_path))
+        assert.is.True(m.ensureDirectory(test_path))
+        assert.is.True(m.directoryExists(test_path))
     end)
 
     it("Should create needed parent directory(ies)", function()
         local childTest = "/another/dir"
-        assert.True(m.ensureDirectory(test_path .. childTest))
-        assert.True(m.directoryExists(test_path .. childTest))
+        assert.is.True(m.ensureDirectory(test_path .. childTest))
+        assert.is.True(m.directoryExists(test_path .. childTest))
     end)
 
     -- False cases
@@ -189,7 +189,7 @@ describe("[ensureDirectory]:", function()
         os.execute("touch " .. test_path)
 
         assert.False(m.ensureDirectory(test_path))
-        assert.True(m.fileExists(test_path))
+        assert.is.True(m.fileExists(test_path))
     end)
 
     -- Clear
