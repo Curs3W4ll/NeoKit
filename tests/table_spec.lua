@@ -358,10 +358,10 @@ describe("[allOf]:", function()
         }
         local passedKV = {}
 
-        assert.is.True(m.allOf(tbl, function(key, value)
+        m.allOf(tbl, function(key, value)
             passedKV[key] = value
             return true
-        end))
+        end)
         assert.are.same(passedKV, tbl)
     end)
 
@@ -385,10 +385,10 @@ describe("[allOf]:", function()
         }
         local additionalArg = { "Another", "additional", "argument" }
 
-        assert.is.True(m.allOf(tbl, function(_, _, fnAdditionalArg)
+        m.allOf(tbl, function(_, _, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
             return true
-        end, additionalArg))
+        end, additionalArg)
     end)
 end)
 
@@ -408,17 +408,17 @@ describe("[anyOf]:", function()
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.anyOf({ 1, 2 }) end)
+            assert.has.errors(function() m.anyOf({ one = 1, two = 2 }) end)
         end)
 
         it("Should throw when argument 2 is not a function", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.anyOf({ 1, 2 }, 2) end)
+            assert.has.errors(function() m.anyOf({ one = 1, two = 2 }, 2) end)
         end)
 
         it("Should throw when argument 2 returns something else than a boolean", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.anyOf({ 1, 2 }, function() return "Hello" end) end)
+            assert.has.errors(function() m.anyOf({ one = 1, two = 2 }, function() return "Hello" end) end)
         end)
     end)
 
@@ -430,10 +430,10 @@ describe("[anyOf]:", function()
         }
         local passedKV = {}
 
-        assert.is.False(m.anyOf(tbl, function(key, value)
+        m.anyOf(tbl, function(key, value)
             passedKV[key] = value
             return false
-        end))
+        end)
         assert.are.same(passedKV, tbl)
     end)
 
@@ -457,9 +457,81 @@ describe("[anyOf]:", function()
         }
         local additionalArg = { "Another", "additional", "argument" }
 
-        assert.is.True(m.anyOf(tbl, function(_, _, fnAdditionalArg)
+        m.anyOf(tbl, function(_, _, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
             return true
-        end, additionalArg))
+        end, additionalArg)
+    end)
+end)
+
+describe("[noneOf]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.noneOf() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.noneOf({ one = 1, two = 2 }) end)
+        end)
+
+        it("Should throw when argument 2 is not a function", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf({ one = 1, two = 2 }, 2) end)
+        end)
+
+        it("Should throw when argument 2 returns something else than a boolean", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf({ one = 1, two = 2 }, function() return "Hello" end) end)
+        end)
+    end)
+
+    it("Should call function with every tbl's elements", function()
+        local tbl = {
+            one = 1,
+            two = 2,
+            three = 3,
+        }
+        local passedKV = {}
+
+        m.noneOf(tbl, function(key, value)
+            passedKV[key] = value
+            return false
+        end)
+        assert.are.same(passedKV, tbl)
+    end)
+
+    it("Should return true if every function call returned false", function()
+        assert.is.True(m.noneOf({ one = 1, two = 2 }, function(_, _) return false end))
+    end)
+
+    it("Should return false if every function call returned true", function()
+        assert.is.False(m.noneOf({ one = 1, two = 2 }, function(_, _) return true end))
+    end)
+
+    it("Should return false if one of the function call returned true", function()
+        assert.is.False(m.noneOf({ one = 1, two = 2 }, function(_, value) return value == 2 end))
+    end)
+
+    it("Should pass additional arguments has given to noneOf", function()
+        local tbl = {
+            one = 1,
+            two = 2,
+            three = 3,
+        }
+        local additionalArg = { "Another", "additional", "argument" }
+
+        m.noneOf(tbl, function(_, _, fnAdditionalArg)
+            assert.is.equal(additionalArg, fnAdditionalArg)
+            return true
+        end, additionalArg)
     end)
 end)
