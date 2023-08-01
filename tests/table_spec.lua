@@ -535,3 +535,56 @@ describe("[noneOf]:", function()
         end, additionalArg)
     end)
 end)
+
+describe("[forEach]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.forEach() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.forEach(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.forEach({ one = 1, two = 2 }) end)
+        end)
+
+        it("Should throw when argument 2 is not a function", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.forEach({ one = 1, two = 2 }, 2) end)
+        end)
+    end)
+
+    it("Should call function with every tbl's elements", function()
+        local tbl = {
+            one = 1,
+            two = 2,
+            three = 3,
+        }
+        local passedKV = {}
+
+        m.forEach(tbl, function(key, value)
+            passedKV[key] = value
+        end)
+        assert.are.same(passedKV, tbl)
+    end)
+
+    it("Should pass additional arguments has given to forEach", function()
+        local tbl = {
+            one = 1,
+            two = 2,
+            three = 3,
+        }
+        local additionalArg = { "Another", "additional", "argument" }
+
+        m.forEach(tbl, function(_, _, fnAdditionalArg)
+            assert.is.equal(additionalArg, fnAdditionalArg)
+        end, additionalArg)
+    end)
+end)
