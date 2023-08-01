@@ -327,3 +327,67 @@ describe("[anyOf]:", function()
         end, additionalArg))
     end)
 end)
+
+describe("[noneOf]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.noneOf() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.noneOf({ 1, 2 }) end)
+        end)
+
+        it("Should throw when argument 2 is not a function", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf({ 1, 2 }, 2) end)
+        end)
+
+        it("Should throw when argument 2 returns something else than a boolean", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.noneOf({ 1, 2 }, function() return "Hello" end) end)
+        end)
+    end)
+
+    it("Should call function with every arr's elements", function()
+        local arr = { 1, 2, 3 }
+        local passedElems = {}
+
+        assert.is.True(m.noneOf(arr, function(elem)
+            table.insert(passedElems, elem)
+            return false
+        end))
+        assert.are.same(passedElems, arr)
+    end)
+
+    it("Should return true if every function call returned false", function()
+        assert.is.True(m.noneOf({ 1, 2, 3 }, function(_) return false end))
+    end)
+
+    it("Should return false if every function call returned true", function()
+        assert.is.False(m.noneOf({ 1, 2, 3 }, function(_) return true end))
+    end)
+
+    it("Should return false if one of the function call returned true", function()
+        assert.is.False(m.noneOf({ 1, 2, 3 }, function(elem) return elem == 2 end))
+    end)
+
+    it("Should pass additional arguments has given to noneOf", function()
+        local arr = { 1, 2, 3 }
+        local additionalArg = { "Another", "additional", "argument" }
+
+        assert.is.True(m.noneOf(arr, function(_, fnAdditionalArg)
+            assert.is.equal(additionalArg, fnAdditionalArg)
+            return false
+        end, additionalArg))
+    end)
+end)
