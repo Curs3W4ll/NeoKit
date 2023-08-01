@@ -16,7 +16,7 @@ local M = {}
 ---local arr3 = concat(arr1, arr2)
 --- -- arr3 -> {"one", "three", "two", 4}
 function M.concat(arr1, arr2)
-    if type(arr1) == "table" then error("argument 'arr1': must be a table") end
+    if type(arr1) ~= "table" then error("argument 'arr1': must be a table") end
     if type(arr2) ~= "table" then error("argument 'arr2': must be a table") end
 
     local concat = {}
@@ -95,13 +95,12 @@ function M.mergeTables(arr, keys)
     local list = {}
 
     for _, elem in ipairs(arr) do
-        if type(elem) ~= "table" then
-            break
-        end
-        for _, key in ipairs(keys) do
-            if require("neokit.table").contains(elem, key) then
-                table.insert(list, elem[key])
-                break
+        if type(elem) == "table" then
+            for _, key in ipairs(keys) do
+                if require("neokit.table").contains(elem, key) then
+                    table.insert(list, elem[key])
+                    break
+                end
             end
         end
     end
