@@ -3,6 +3,7 @@ check-install-inotifywait: # Check if the inotifywait command is installed
 
 lint: # Run linter
 	luacheck lua/neokit
+	luacheck tests/*_spec.lua
 
 watch-lint: check-install-inotifywait # Automatilcayy start linter when code is updated
 	@inotifywait -m -r -e close_write --format %e lua/ | \
