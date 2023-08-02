@@ -436,3 +436,42 @@ describe("[forEach]:", function()
         end, additionalArg)
     end)
 end)
+
+describe("[join]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.join() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.join(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.join({ 1, 2 }, 2) end)
+        end)
+    end)
+
+    it("Should produce empty string when trying to join empty array", function()
+        assert.are.same("", m.join({}))
+    end)
+
+    it("Should join together elements without separator if not specified", function()
+        local arr = { 1, 2, 3 }
+        local expected = "123"
+
+        assert.are.same(expected, m.join(arr))
+    end)
+
+    it("Should join together elements separated by the specified separator", function()
+        local arr = { 1, 2, 3 }
+        local expected = "1, 2, 3"
+
+        assert.are.same(expected, m.join(arr, ", "))
+    end)
+end)
