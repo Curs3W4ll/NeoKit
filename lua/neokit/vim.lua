@@ -89,6 +89,39 @@ function M.mapExists(mode, key)
     return false
 end
 
+---Get a keybind details for the Neovim instance
+---@param mode string The mode to get the keybind in
+---@param key string The key combination defining the keybind to get
+---@return table|nil # A valid table contains details about the keybind if the keybind exists, nil otherwise
+---@raise error if mode is not a string<br/>
+---error if mode does not have a valid value<br/>
+---error if key is not a string
+---@usage
+---map("i", "jk", "<ESC>", { nowait = true })
+---print(getMap("i", "jk")) -- { mode = "i", lhs = "jk", rhs = "<Esc>", nowait = true, ... }
+function M.getMap(mode, key)
+    if type(mode) ~= "string" then
+        error("argument 'mode': must be a string")
+    end
+    local validModes = { "n", "i", "c", "v", "x", "!", "" }
+    if not uarray.contains(validModes, mode) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    end
+    if type(key) ~= "string" then
+        error("argument 'key': must be a string")
+    end
+
+    local keymaps = vim.api.nvim_get_keymap(mode)
+
+    for _,t in ipairs(keymaps) do
+        if t["lhs"] == key then
+            return t
+        end
+    end
+
+    return nil
+end
+
 ---Unmap a keybind for the Neovim instance
 ---@param mode string The mode the key bind will deleted for
 ---@param key string The key combination that will be deleted

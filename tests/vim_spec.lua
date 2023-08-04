@@ -259,6 +259,83 @@ describe("[mapExists]:", function()
     end)
 end)
 
+describe("[getMap]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.getMap() end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.getMap(2) end)
+        end)
+
+        it("Should throw when argument 1 is not valid", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.getMap("blabla") end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.getMap("n") end)
+        end)
+
+        it("Should throw when argument 2 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.getMap("n", 2) end)
+        end)
+    end)
+
+    it("Should return a table if mapping exists", function()
+        local mode = "i"
+        local key = "arandomkeybind"
+        local action = "arandomaction"
+
+        m.map(mode, key, action)
+        assert.are.same("table", type(m.getMap(mode, key)))
+    end)
+
+    it("Should return nil if mapping does not exists", function()
+        local mode = "n"
+        local key = "arandomkeybindthatdoesnotexist"
+
+        assert.is.Nil(m.getMap(mode, key))
+    end)
+
+    it("Should return a table with valid values if mapping exists", function()
+        local mode = "n"
+        local key = "somerandomkeybind"
+        local action = "somerandomaction"
+        local opts = {
+            nowait = true,
+            silent = true,
+            noremap = false,
+            desc = "This is the description of this custom keybind",
+        }
+
+        m.map(mode, key, action, opts)
+        local result = m.getMap(mode, key)
+        assert.Not.is.Nil(result)
+        ---@diagnostic disable-next-line need-check-nil
+        assert.are.same(mode, result["mode"])
+        ---@diagnostic disable-next-line need-check-nil
+        assert.are.same(key, result["lhs"])
+        ---@diagnostic disable-next-line need-check-nil
+        assert.are.same(action, result["rhs"])
+        for k,v in pairs(opts) do
+            if type(v) == "boolean" then
+                ---@diagnostic disable-next-line cast-local-type
+                v = v and 1 or 0
+            end
+            ---@diagnostic disable-next-line need-check-nil
+            assert.are.same(v, result[k])
+        end
+    end)
+end)
+
 describe("[unmap]:", function()
     describe("(arguments)", function()
         -- Argument 1
