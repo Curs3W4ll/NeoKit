@@ -397,3 +397,43 @@ describe("[unmap]:", function()
         assert.is.False(checkKeymap(mode, key, action))
     end)
 end)
+
+describe("[getOption]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.getOption() end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.getOption(2) end)
+        end)
+
+        it("Should throw when the argument 1 is not valid", function()
+            assert.has.errors(function() m.getOption("notvalid") end)
+        end)
+    end)
+
+    it("Should return the value of the given option", function()
+        local option = "mouse"
+        local value = "n"
+
+        vim.api.nvim_set_option_value(option, value, {})
+
+        assert.are.same(m.getOption(option), value)
+    end)
+
+    it("Should return the value of the given option after change", function()
+        local option = "mouse"
+        local value = "n"
+
+        vim.api.nvim_set_option_value(option, value, {})
+        assert.are.same(m.getOption(option), value)
+
+        value = "i"
+        vim.api.nvim_set_option_value(option, value, {})
+        assert.are.same(m.getOption(option), value)
+    end)
+end)

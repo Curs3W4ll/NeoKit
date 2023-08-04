@@ -154,4 +154,22 @@ function M.unmap(mode, key)
     return true
 end
 
+---Get the value of an option for the Neovim instance
+---@param option string The option name to get the value of
+---@return any # Option information
+---@raise error if option is not a string<br/>
+---error if option is not a valid option
+---@usage
+function M.getOption(option)
+    if type(option) ~= "string" then
+        error("argument 'option': must be a string")
+    end
+    local options = vim.api.nvim_get_all_options_info()
+    if not options[option] then
+        error("argument 'option'(" .. option .. "): not a valid option")
+    end
+
+    return vim.api.nvim_get_option_value(option, {})
+end
+
 return M
