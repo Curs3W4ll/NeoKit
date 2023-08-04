@@ -156,10 +156,11 @@ end
 
 ---Get the value of an option for the Neovim instance
 ---@param option string The option name to get the value of
----@return any # Option information
+---@return string|number|boolean # Option value
 ---@raise error if option is not a string<br/>
 ---error if option is not a valid option
 ---@usage
+---print(m.getOption("mouse")) -- nvi
 function M.getOption(option)
     if type(option) ~= "string" then
         error("argument 'option': must be a string")
@@ -170,6 +171,31 @@ function M.getOption(option)
     end
 
     return vim.api.nvim_get_option_value(option, {})
+end
+
+---Set the value of an option for the Neovim instance
+---@param option string The option name to set the value of
+---@param value string|number|boolean The value to set to the option
+---@raise error if option is not a string<br/>
+---error if option is not a valid option<br/>
+---error if value is not a string, number, or boolean<br/>
+---error if value is not valid
+---@usage
+---m.setOption("mouse", "i")
+---print(m.getOption("mouse")) -- i
+function M.setOption(option, value)
+    if type(option) ~= "string" then
+        error("argument 'option': must be a string")
+    end
+    local options = vim.api.nvim_get_all_options_info()
+    if not options[option] then
+        error("argument 'option'(" .. option .. "): not a valid option")
+    end
+    if type(value) ~= "string" and type(value) ~= "number" and type(value) ~= "boolean" then
+        error("argument 'value': must be a string, number, or boolean")
+    end
+
+    vim.api.nvim_set_option_value(option, value, {})
 end
 
 return M

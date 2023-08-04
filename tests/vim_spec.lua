@@ -437,3 +437,46 @@ describe("[getOption]:", function()
         assert.are.same(m.getOption(option), value)
     end)
 end)
+
+describe("[setOption]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.setOption() end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.setOption(2) end)
+        end)
+
+        it("Should throw when the argument 1 is not valid", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.setOption("notvalid") end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.setOption("mouse") end)
+        end)
+
+        it("Should throw when argument 2 is not a string/number/boolean", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.setOption("mouse", {}) end)
+        end)
+    end)
+
+    it("Should change the value of the option", function()
+        local option = "mouse"
+        local value = "nvi"
+
+        m.setOption(option, value)
+        assert.are.same(vim.api.nvim_get_option_value(option, {}), value)
+
+        value = "ni"
+        m.setOption(option, value)
+        assert.are.same(vim.api.nvim_get_option_value(option, {}), value)
+    end)
+end)
