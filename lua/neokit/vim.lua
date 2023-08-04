@@ -55,4 +55,70 @@ function M.map(mode, key, action, opts)
     end
 end
 
+---Check if a keybind exist for the Neovim instance
+---@param mode string The mode the key bind should be set for
+---@param key string The key combination the key bind should be triggered by
+---@return boolean # true if a keybind exists for the given mode and key, false otherwise
+---@raise error if mode is not a string<br/>
+---error if mode does not have a valid value<br/>
+---error if key is not a string
+---@usage
+---map("i", "jk", "<ESC>")
+---mapExists("i", "jk") -- true
+---mapExists("i", "notset") -- false
+function M.mapExists(mode, key)
+    if type(mode) ~= "string" then
+        error("argument 'mode': must be a string")
+    end
+    local validModes = { "n", "i", "c", "v", "x", "!", "" }
+    if not uarray.contains(validModes, mode) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    end
+    if type(key) ~= "string" then
+        error("argument 'key': must be a string")
+    end
+
+    local keymaps = vim.api.nvim_get_keymap(mode)
+
+    for _,t in ipairs(keymaps) do
+        if t["lhs"] == key then
+            return true
+        end
+    end
+
+    return false
+end
+
+---Unmap a keybind for the Neovim instance
+---@param mode string The mode the key bind will deleted for
+---@param key string The key combination that will be deleted
+---@return boolean # true if a keybind have been deleted, false if the keybind does not exist
+---@raise error if mode is not a string<br/>
+---error if mode does not have a valid value<br/>
+---error if key is not a string
+---@usage
+---map("i", "jk", "<ESC>", { nowait = true })
+---unmap("i", "jk") -- true
+---unmap("i", "notexist") -- false
+function M.unmap(mode, key)
+    if type(mode) ~= "string" then
+        error("argument 'mode': must be a string")
+    end
+    local validModes = { "n", "i", "c", "v", "x", "!", "" }
+    if not uarray.contains(validModes, mode) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    end
+    if type(key) ~= "string" then
+        error("argument 'key': must be a string")
+    end
+
+    if not M.mapExists(mode, key) then
+        return false
+    end
+
+    vim.api.nvim_del_keymap(mode, key)
+
+    return true
+end
+
 return M
