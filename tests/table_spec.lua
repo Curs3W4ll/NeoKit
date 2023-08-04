@@ -34,7 +34,7 @@ describe("[concat]:", function()
     it("Should return an empty table if both arguments are empty", function()
         local result = m.concat({}, {})
 
-        assert.are.same(result, {})
+        assert.are.same({}, result)
     end)
 
     it("Should return tbl1 if tbl2 is empty", function()
@@ -44,7 +44,7 @@ describe("[concat]:", function()
         }
         local result = m.concat(tbl1, {})
 
-        assert.are.same(result, tbl1)
+        assert.are.same(tbl1, result)
     end)
 
     it("Should return tbl2 if tbl1 is empty", function()
@@ -54,7 +54,7 @@ describe("[concat]:", function()
         }
         local result = m.concat({}, tbl2)
 
-        assert.are.same(result, tbl2)
+        assert.are.same(tbl2, result)
     end)
 
     it("Should return tbl1 and tbl2 concatenated", function()
@@ -74,7 +74,7 @@ describe("[concat]:", function()
         }
         local result = m.concat(tbl1, tbl2)
 
-        assert.are.same(result, expected)
+        assert.are.same(expected, result)
     end)
 
     it("Should take duplicate values from tbl1 over tbl2 when force is set to false or not given", function()
@@ -93,7 +93,7 @@ describe("[concat]:", function()
         }
         local result = m.concat(tbl1, tbl2, false)
 
-        assert.are.same(result, expected)
+        assert.are.same(expected, result)
     end)
 
     it("Should take duplicate values from tbl2 over tbl1 when force is set to true", function()
@@ -112,7 +112,7 @@ describe("[concat]:", function()
         }
         local result = m.concat(tbl1, tbl2, true)
 
-        assert.are.same(result, expected)
+        assert.are.same(expected, result)
     end)
 end)
 
@@ -220,7 +220,7 @@ describe("[find]:", function()
             three = 3,
         }
 
-        assert.are.same(m.find(tbl, 2), "two")
+        assert.are.same("two", m.find(tbl, 2))
     end)
 
     it("Should return a key if tbl contains value multiple times", function()
@@ -236,7 +236,7 @@ describe("[find]:", function()
         local result = m.find(tbl, 1)
 
         assert.Not.Nil(result)
-        assert.are.same(tbl[result], 1)
+        assert.are.same(1, tbl[result])
     end)
 
     it("Should return the key if tbl contains value at start", function()
@@ -246,7 +246,7 @@ describe("[find]:", function()
             three = 3,
         }
 
-        assert.are.same(m.find(tbl, 1), "one")
+        assert.are.same("one", m.find(tbl, 1))
     end)
 
     it("Should return the key if tbl contains value at last", function()
@@ -256,7 +256,7 @@ describe("[find]:", function()
             three = 3,
         }
 
-        assert.are.same(m.find(tbl, 3), "three")
+        assert.are.same("three", m.find(tbl, 3))
     end)
 
     it("Should return nil if tbl does not contains value", function()
@@ -312,11 +312,11 @@ describe("[copy]:", function()
         copy["aKey"] = "aValue"
 
         assert.Not.are.same(tbl, copy)
-        assert.are.same(tbl, {
+        assert.are.same({
             one = 1,
             two = 2,
             three = 3,
-        })
+        }, tbl)
     end)
 end)
 
@@ -362,7 +362,7 @@ describe("[allOf]:", function()
             passedKV[key] = value
             return true
         end)
-        assert.are.same(passedKV, tbl)
+        assert.are.same(tbl, passedKV)
     end)
 
     it("Should return true if every function call returned true", function()
@@ -434,7 +434,7 @@ describe("[anyOf]:", function()
             passedKV[key] = value
             return false
         end)
-        assert.are.same(passedKV, tbl)
+        assert.are.same(tbl, passedKV)
     end)
 
     it("Should return true if every function call returned true", function()
@@ -506,7 +506,7 @@ describe("[noneOf]:", function()
             passedKV[key] = value
             return false
         end)
-        assert.are.same(passedKV, tbl)
+        assert.are.same(tbl, passedKV)
     end)
 
     it("Should return true if every function call returned false", function()
@@ -572,7 +572,7 @@ describe("[forEach]:", function()
         m.forEach(tbl, function(key, value)
             passedKV[key] = value
         end)
-        assert.are.same(passedKV, tbl)
+        assert.are.same(tbl, passedKV)
     end)
 
     it("Should pass additional arguments has given to forEach", function()

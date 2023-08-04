@@ -28,33 +28,33 @@ describe("[concat]:", function()
     it("Should return an empty array if both arguments are empty", function()
         local result = m.concat({}, {})
 
-        assert.are.same(result, {})
+        assert.are.same({}, result)
     end)
 
     it("Should return arr1 if arr2 is empty", function()
         local arr1 = { 1, 2 }
         local result = m.concat(arr1, {})
 
-        assert.are.same(result, arr1)
+        assert.are.same(arr1, result)
     end)
 
     it("Should return arr2 if arr1 is empty", function()
         local arr2 = { 1, 2 }
         local result = m.concat({}, arr2)
 
-        assert.are.same(result, arr2)
+        assert.are.same(arr2, result)
     end)
 
     it("Should return arr1 and arr2 concatenated", function()
         local result = m.concat({ 1, 2 }, { 3, 4 })
 
-        assert.are.same(result, { 1, 2, 3, 4 })
+        assert.are.same({ 1, 2, 3, 4 }, result)
     end)
 
     it("Should duplicate same values between arrays", function()
         local result = m.concat({ 1, 2, 3}, { 3, 4 })
 
-        assert.are.same(result, { 1, 2, 3, 3, 4 })
+        assert.are.same({ 1, 2, 3, 3, 4 }, result)
     end)
 end)
 
@@ -139,7 +139,7 @@ describe("[mergeTables]:", function()
     it("Should return an empty array if none of arr's elements are tables", function()
         local arr = { "Hello", 1, 2 }
 
-        assert.is.same(m.mergeTables(arr, "theKey"), {})
+        assert.is.same({}, m.mergeTables(arr, "theKey"))
     end)
 
     it("Should return the list of key's values of child tables", function()
@@ -149,7 +149,7 @@ describe("[mergeTables]:", function()
             { name = "Sara", age = 27 },
         }
 
-        assert.is.same(m.mergeTables(arr, "name"), { "Brian", "Michel", "Sara" })
+        assert.is.same({ "Brian", "Michel", "Sara" }, m.mergeTables(arr, "name"))
     end)
 
     it("Should return the list of key's values only if type is table", function()
@@ -161,7 +161,7 @@ describe("[mergeTables]:", function()
             { name = "Sara", age = 27 },
         }
 
-        assert.is.same(m.mergeTables(arr, "name"), { "Brian", "Michel", "Sara" })
+        assert.is.same({ "Brian", "Michel", "Sara" }, m.mergeTables(arr, "name"))
     end)
 
     it("Should return the list of key's values only if key is present", function()
@@ -171,7 +171,7 @@ describe("[mergeTables]:", function()
             { name = "Sara", age = 27 },
         }
 
-        assert.is.same(m.mergeTables(arr, "name"), { "Brian", "Sara" })
+        assert.is.same({ "Brian", "Sara" }, m.mergeTables(arr, "name"))
     end)
 
     it("Should return the list of key's values multiple times", function()
@@ -181,7 +181,7 @@ describe("[mergeTables]:", function()
             { name = "Sara", age = 27 },
         }
 
-        assert.is.same(m.mergeTables(arr, "name"), { "Brian", "Brian", "Sara" })
+        assert.is.same({ "Brian", "Brian", "Sara" }, m.mergeTables(arr, "name"))
     end)
 
     -- Multiple keys
@@ -196,7 +196,7 @@ describe("[mergeTables]:", function()
         }
         local expected = { "Component1", "C2", "Component3", "4", "C5" }
 
-        assert.is.same(m.mergeTables(arr, { "name", "alias", "fallback" }), expected)
+        assert.is.same(expected, m.mergeTables(arr, { "name", "alias", "fallback" }))
     end)
 end)
 
@@ -238,7 +238,7 @@ describe("[allOf]:", function()
             table.insert(passedElems, elem)
             return true
         end)
-        assert.are.same(passedElems, arr)
+        assert.are.same(arr, passedElems)
     end)
 
     it("Should return true if every function call returned true", function()
@@ -302,7 +302,7 @@ describe("[anyOf]:", function()
             table.insert(passedElems, elem)
             return false
         end)
-        assert.are.same(passedElems, arr)
+        assert.are.same(arr, passedElems)
     end)
 
     it("Should return true if every function call returned true", function()
@@ -366,7 +366,7 @@ describe("[noneOf]:", function()
             table.insert(passedElems, elem)
             return false
         end)
-        assert.are.same(passedElems, arr)
+        assert.are.same(arr, passedElems)
     end)
 
     it("Should return true if every function call returned false", function()
@@ -424,7 +424,7 @@ describe("[forEach]:", function()
         m.forEach(arr, function(elem)
             table.insert(passedElems, elem)
         end)
-        assert.are.same(passedElems, arr)
+        assert.are.same(arr, passedElems)
     end)
 
     it("Should pass additional arguments has given to forEach", function()
@@ -434,5 +434,44 @@ describe("[forEach]:", function()
         m.forEach(arr, function(_, fnAdditionalArg)
             assert.is.equal(additionalArg, fnAdditionalArg)
         end, additionalArg)
+    end)
+end)
+
+describe("[join]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            ---@diagnostic disable-next-line: missing-parameter
+            assert.has.errors(function() m.join() end)
+        end)
+
+        it("Should throw when argument 1 is not a table", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.join(2) end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not a string", function()
+            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+            assert.has.errors(function() m.join({ 1, 2 }, 2) end)
+        end)
+    end)
+
+    it("Should produce empty string when trying to join empty array", function()
+        assert.are.same("", m.join({}))
+    end)
+
+    it("Should join together elements without separator if not specified", function()
+        local arr = { 1, 2, 3 }
+        local expected = "123"
+
+        assert.are.same(expected, m.join(arr))
+    end)
+
+    it("Should join together elements separated by the specified separator", function()
+        local arr = { 1, 2, 3 }
+        local expected = "1, 2, 3"
+
+        assert.are.same(expected, m.join(arr, ", "))
     end)
 end)

@@ -91,12 +91,12 @@ describe("[ensureLastChar]:", function()
 
     it("Should add char at end of str if not already present", function()
         local result = m.ensureLastChar("Hello world", "!")
-        assert.are.same(result, "Hello world!")
+        assert.are.same("Hello world!", result)
     end)
 
     it("Should not add char at end of str if already present", function()
         local result = m.ensureLastChar("Hello world!", "!")
-        assert.are.same(result, "Hello world!")
+        assert.are.same("Hello world!", result)
     end)
 
     it("Should not change str when not adding char at the end", function()

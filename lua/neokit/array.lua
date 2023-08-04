@@ -263,4 +263,37 @@ function M.forEach(arr, fn, ...)
     end
 end
 
+---Join array elements together into a string
+---@param arr table The array to join elements of
+---@param separator? string The string to insert between element
+---@raise error if arr is not a table<br/>
+---error if separator is not a string
+---@usage
+---local arr = { 1, 2, 3 }
+---print(join(arr, ", ")) -- "1, 2, 3"
+function M.join(arr, separator)
+    if separator == nil then
+        separator = ""
+    end
+    if type(arr) ~= "table" then
+        error("argument 'arr': must be a table")
+    end
+    if type(separator) ~= "string" then
+        error("argument 'separator': must be a string")
+    end
+
+    local s = ""
+    local first = true
+
+    for _,elem in ipairs(arr) do
+        if not first then
+            s = s .. separator
+        end
+        s = s .. elem
+        first = false
+    end
+
+    return s
+end
+
 return M
