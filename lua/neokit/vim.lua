@@ -80,7 +80,7 @@ function M.mapExists(mode, key)
 
     local keymaps = vim.api.nvim_get_keymap(mode)
 
-    for _,t in ipairs(keymaps) do
+    for _, t in ipairs(keymaps) do
         if t["lhs"] == key then
             return true
         end
@@ -113,7 +113,7 @@ function M.getMap(mode, key)
 
     local keymaps = vim.api.nvim_get_keymap(mode)
 
-    for _,t in ipairs(keymaps) do
+    for _, t in ipairs(keymaps) do
         if t["lhs"] == key then
             return t
         end

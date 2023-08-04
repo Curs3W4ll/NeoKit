@@ -285,7 +285,7 @@ function M.join(arr, separator)
     local s = ""
     local first = true
 
-    for _,elem in ipairs(arr) do
+    for _, elem in ipairs(arr) do
         if not first then
             s = s .. separator
         end
