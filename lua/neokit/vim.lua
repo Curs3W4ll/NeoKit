@@ -11,13 +11,13 @@ local uarray = require("neokit.array")
 ---@param key string The key combination that will trigger the binding
 ---@param action string|function The action that will take place when the binding is being triggered
 ---@param opts? table Additional options passed to nvim_set_keymap function<br/>
----       opts.noremap: non-recursive mapping
----       opts.desc: human-readable description
----       opts.replace_keycodes: replace keycodes in the resulting string
----       opts.nowait: Do not wait if another key bing use the same start of key
----       opts.silent: Do not produce any message
----       opts.script: Remap only mappings starting with <SID>
----       opts.expr: Treat the keybind as an expression
+---       opts.noremap: non-recursive mapping<br/>
+---       opts.desc: human-readable description<br/>
+---       opts.replace_keycodes: replace keycodes in the resulting string<br/>
+---       opts.nowait: Do not wait if another key bing use the same start of key<br/>
+---       opts.silent: Do not produce any message<br/>
+---       opts.script: Remap only mappings starting with <SID><br/>
+---       opts.expr: Treat the keybind as an expression<br/>
 ---       opts.unique: Do not erase the previous mapping if any before it
 ---@raise error if mode is not a string<br/>
 ---error if mode does not have a valid value<br/>
@@ -156,12 +156,17 @@ end
 
 ---Get the value of an option for the Neovim instance
 ---@param option string The option name to get the value of
+---@param opts? table Additional argument about the option<br/>
+---       opts.scope "global"|"local": Scope action of the option<br/>
+---       opts.win: The id of the window to get the option for<br/>
+---       opts.buf: The number of the buffer to get the option for<br/>
+---       opts.filetype: Get option for a specific filetype
 ---@return string|number|boolean # Option value
 ---@raise error if option is not a string<br/>
 ---error if option is not a valid option
 ---@usage
 ---print(m.getOption("mouse")) -- nvi
-function M.getOption(option)
+function M.getOption(option, opts)
     if type(option) ~= "string" then
         error("argument 'option': must be a string")
     end
@@ -169,13 +174,21 @@ function M.getOption(option)
     if not options[option] then
         error("argument 'option'(" .. option .. "): not a valid option")
     end
+    opts = opts and opts or {}
+    if type(opts) ~= "table" then
+        error("argument 'opts': must be a table")
+    end
 
-    return vim.api.nvim_get_option_value(option, {})
+    return vim.api.nvim_get_option_value(option, opts)
 end
 
 ---Set the value of an option for the Neovim instance
 ---@param option string The option name to set the value of
 ---@param value string|number|boolean The value to set to the option
+---@param opts? table Additional argument about the option<br/>
+---       opts.scope "global"|"local": Scope action of the option<br/>
+---       opts.win: The id of the window to set the option for<br/>
+---       opts.buf: The number of the buffer to set the option for
 ---@raise error if option is not a string<br/>
 ---error if option is not a valid option<br/>
 ---error if value is not a string, number, or boolean<br/>
@@ -183,7 +196,7 @@ end
 ---@usage
 ---m.setOption("mouse", "i")
 ---print(m.getOption("mouse")) -- i
-function M.setOption(option, value)
+function M.setOption(option, value, opts)
     if type(option) ~= "string" then
         error("argument 'option': must be a string")
     end
@@ -194,8 +207,12 @@ function M.setOption(option, value)
     if type(value) ~= "string" and type(value) ~= "number" and type(value) ~= "boolean" then
         error("argument 'value': must be a string, number, or boolean")
     end
+    opts = opts and opts or {}
+    if type(opts) ~= "table" then
+        error("argument 'opts': must be a table")
+    end
 
-    vim.api.nvim_set_option_value(option, value, {})
+    vim.api.nvim_set_option_value(option, value, opts)
 end
 
 return M

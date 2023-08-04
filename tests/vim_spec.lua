@@ -414,6 +414,12 @@ describe("[getOption]:", function()
         it("Should throw when the argument 1 is not valid", function()
             assert.has.errors(function() m.getOption("notvalid") end)
         end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not a table", function()
+            ---@diagnostic disable-next-line: param-type-mismatch
+            assert.has.errors(function() m.getOption("mouse", 2) end)
+        end)
     end)
 
     it("Should return the value of the given option", function()
@@ -465,6 +471,12 @@ describe("[setOption]:", function()
         it("Should throw when argument 2 is not a string/number/boolean", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function() m.setOption("mouse", {}) end)
+        end)
+
+        -- Argument 3
+        it("Should throw when argument 3 is not a table", function()
+            ---@diagnostic disable-next-line: param-type-mismatch
+            assert.has.errors(function() m.getOption("mouse", "nvi", 2) end)
         end)
     end)
 
