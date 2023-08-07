@@ -192,7 +192,6 @@ function M.unmap(mode, key, opts)
 
     uarray.forEach(mode, function(m)
         if M.mapExists(m, key) then
-            print("For " .. key .. " in " .. m)
             vim.keymap.del(m, key, opts)
         else
             ret = false
