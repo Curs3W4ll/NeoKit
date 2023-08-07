@@ -29,6 +29,7 @@ end
 ---Setup the test Neovim instance
 function M.setup()
     vim.cmd([[set runtimepath=$VIMRUNTIME]])
+    ---@diagnostic disable-next-line missing-parameter
     vim.opt.runtimepath:append(M.root())
     vim.opt.packpath = { M.root(".tests/site") }
 
