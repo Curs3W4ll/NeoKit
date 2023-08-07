@@ -1,3 +1,4 @@
+---@diagnostic disable
 -- Rerun tests only if their modification time changed.
 cache = true
 
