@@ -5,23 +5,31 @@ describe("[concat]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.concat() end)
+            assert.has.errors(function()
+                m.concat()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.concat(2) end)
+            assert.has.errors(function()
+                m.concat(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.concat({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.concat({ 1, 2 })
+            end)
         end)
 
         it("Should throw when argument 2 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.concat({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.concat({ 1, 2 }, 2)
+            end)
         end)
     end)
 
@@ -52,7 +60,7 @@ describe("[concat]:", function()
     end)
 
     it("Should duplicate same values between arrays", function()
-        local result = m.concat({ 1, 2, 3}, { 3, 4 })
+        local result = m.concat({ 1, 2, 3 }, { 3, 4 })
 
         assert.are.same({ 1, 2, 3, 3, 4 }, result)
     end)
@@ -63,18 +71,24 @@ describe("[contains]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.contains() end)
+            assert.has.errors(function()
+                m.contains()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.contains(2) end)
+            assert.has.errors(function()
+                m.contains(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.contains({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.contains({ 1, 2 })
+            end)
         end)
     end)
 
@@ -120,18 +134,24 @@ describe("[mergeTables]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.mergeTables() end)
+            assert.has.errors(function()
+                m.mergeTables()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.mergeTables(2) end)
+            assert.has.errors(function()
+                m.mergeTables(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.mergeTables({ {}, {} }) end)
+            assert.has.errors(function()
+                m.mergeTables({ {}, {} })
+            end)
         end)
     end)
 
@@ -205,28 +225,40 @@ describe("[allOf]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.allOf() end)
+            assert.has.errors(function()
+                m.allOf()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.allOf(2) end)
+            assert.has.errors(function()
+                m.allOf(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.allOf({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.allOf({ 1, 2 })
+            end)
         end)
 
         it("Should throw when argument 2 is not a function", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.allOf({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.allOf({ 1, 2 }, 2)
+            end)
         end)
 
         it("Should throw when argument 2 returns something else than a boolean", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.allOf({ 1, 2 }, function() return "Hello" end) end)
+            assert.has.errors(function()
+                m.allOf({ 1, 2 }, function()
+                    return "Hello"
+                end)
+            end)
         end)
     end)
 
@@ -242,15 +274,21 @@ describe("[allOf]:", function()
     end)
 
     it("Should return true if every function call returned true", function()
-        assert.is.True(m.allOf({ 1, 2, 3 }, function(_) return true end))
+        assert.is.True(m.allOf({ 1, 2, 3 }, function(_)
+            return true
+        end))
     end)
 
     it("Should return false if every function call returned false", function()
-        assert.is.False(m.allOf({ 1, 2, 3 }, function(_) return false end))
+        assert.is.False(m.allOf({ 1, 2, 3 }, function(_)
+            return false
+        end))
     end)
 
     it("Should return false if one of the function call returned false", function()
-        assert.is.False(m.allOf({ 1, 2, 3 }, function(elem) return elem ~= 2 end))
+        assert.is.False(m.allOf({ 1, 2, 3 }, function(elem)
+            return elem ~= 2
+        end))
     end)
 
     it("Should pass additional arguments has given to allOf", function()
@@ -269,28 +307,40 @@ describe("[anyOf]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.anyOf() end)
+            assert.has.errors(function()
+                m.anyOf()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.anyOf(2) end)
+            assert.has.errors(function()
+                m.anyOf(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.anyOf({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.anyOf({ 1, 2 })
+            end)
         end)
 
         it("Should throw when argument 2 is not a function", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.anyOf({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.anyOf({ 1, 2 }, 2)
+            end)
         end)
 
         it("Should throw when argument 2 returns something else than a boolean", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.anyOf({ 1, 2 }, function() return "Hello" end) end)
+            assert.has.errors(function()
+                m.anyOf({ 1, 2 }, function()
+                    return "Hello"
+                end)
+            end)
         end)
     end)
 
@@ -306,15 +356,21 @@ describe("[anyOf]:", function()
     end)
 
     it("Should return true if every function call returned true", function()
-        assert.is.True(m.anyOf({ 1, 2, 3 }, function(_) return true end))
+        assert.is.True(m.anyOf({ 1, 2, 3 }, function(_)
+            return true
+        end))
     end)
 
     it("Should return true if one of the function call returned true", function()
-        assert.is.True(m.anyOf({ 1, 2, 3 }, function(elem) return elem == 2 end))
+        assert.is.True(m.anyOf({ 1, 2, 3 }, function(elem)
+            return elem == 2
+        end))
     end)
 
     it("Should return false if every function call returned false", function()
-        assert.is.False(m.anyOf({ 1, 2, 3 }, function(_) return false end))
+        assert.is.False(m.anyOf({ 1, 2, 3 }, function(_)
+            return false
+        end))
     end)
 
     it("Should pass additional arguments has given to anyOf", function()
@@ -333,28 +389,40 @@ describe("[noneOf]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.noneOf() end)
+            assert.has.errors(function()
+                m.noneOf()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.noneOf(2) end)
+            assert.has.errors(function()
+                m.noneOf(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.noneOf({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.noneOf({ 1, 2 })
+            end)
         end)
 
         it("Should throw when argument 2 is not a function", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.noneOf({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.noneOf({ 1, 2 }, 2)
+            end)
         end)
 
         it("Should throw when argument 2 returns something else than a boolean", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.noneOf({ 1, 2 }, function() return "Hello" end) end)
+            assert.has.errors(function()
+                m.noneOf({ 1, 2 }, function()
+                    return "Hello"
+                end)
+            end)
         end)
     end)
 
@@ -370,15 +438,21 @@ describe("[noneOf]:", function()
     end)
 
     it("Should return true if every function call returned false", function()
-        assert.is.True(m.noneOf({ 1, 2, 3 }, function(_) return false end))
+        assert.is.True(m.noneOf({ 1, 2, 3 }, function(_)
+            return false
+        end))
     end)
 
     it("Should return false if every function call returned true", function()
-        assert.is.False(m.noneOf({ 1, 2, 3 }, function(_) return true end))
+        assert.is.False(m.noneOf({ 1, 2, 3 }, function(_)
+            return true
+        end))
     end)
 
     it("Should return false if one of the function call returned true", function()
-        assert.is.False(m.noneOf({ 1, 2, 3 }, function(elem) return elem == 2 end))
+        assert.is.False(m.noneOf({ 1, 2, 3 }, function(elem)
+            return elem == 2
+        end))
     end)
 
     it("Should pass additional arguments has given to noneOf", function()
@@ -397,23 +471,31 @@ describe("[forEach]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.forEach() end)
+            assert.has.errors(function()
+                m.forEach()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.forEach(2) end)
+            assert.has.errors(function()
+                m.forEach(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.forEach({ 1, 2 }) end)
+            assert.has.errors(function()
+                m.forEach({ 1, 2 })
+            end)
         end)
 
         it("Should throw when argument 2 is not a function", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.forEach({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.forEach({ 1, 2 }, 2)
+            end)
         end)
     end)
 
@@ -442,18 +524,24 @@ describe("[join]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.join() end)
+            assert.has.errors(function()
+                m.join()
+            end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.join(2) end)
+            assert.has.errors(function()
+                m.join(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.join({ 1, 2 }, 2) end)
+            assert.has.errors(function()
+                m.join({ 1, 2 }, 2)
+            end)
         end)
     end)
 

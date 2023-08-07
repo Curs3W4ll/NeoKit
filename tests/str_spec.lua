@@ -5,23 +5,31 @@ describe("[contains]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.contains() end)
+            assert.has.errors(function()
+                m.contains()
+            end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.contains(2) end)
+            assert.has.errors(function()
+                m.contains(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.contains("Hello") end)
+            assert.has.errors(function()
+                m.contains("Hello")
+            end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.contains("Hello", 2) end)
+            assert.has.errors(function()
+                m.contains("Hello", 2)
+            end)
         end)
     end)
 
@@ -65,27 +73,37 @@ describe("[ensureLastChar]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.ensureLastChar() end)
+            assert.has.errors(function()
+                m.ensureLastChar()
+            end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.ensureLastChar(2) end)
+            assert.has.errors(function()
+                m.ensureLastChar(2)
+            end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.ensureLastChar("Hello world") end)
+            assert.has.errors(function()
+                m.ensureLastChar("Hello world")
+            end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.ensureLastChar("Hello world", 2) end)
+            assert.has.errors(function()
+                m.ensureLastChar("Hello world", 2)
+            end)
         end)
 
         it("Should throw when argument 2 is more than 1 char long", function()
-            assert.has.errors(function() m.ensureLastChar("Hello wo", "rld") end)
+            assert.has.errors(function()
+                m.ensureLastChar("Hello wo", "rld")
+            end)
         end)
     end)
 

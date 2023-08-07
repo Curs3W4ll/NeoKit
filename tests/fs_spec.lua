@@ -11,12 +11,16 @@ describe("[directoryExists]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.directoryExists() end)
+            assert.has.errors(function()
+                m.directoryExists()
+            end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.directoryExists(2) end)
+            assert.has.errors(function()
+                m.directoryExists(2)
+            end)
         end)
     end)
 
@@ -61,22 +65,30 @@ describe("[fileExists]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.fileExists() end)
+            assert.has.errors(function()
+                m.fileExists()
+            end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.fileExists(2) end)
+            assert.has.errors(function()
+                m.fileExists(2)
+            end)
         end)
 
         -- Argument 2
         it("Should not throw when argument 2 is not given", function()
-            assert.Not.has.errors(function() m.fileExists("Hello world!") end)
+            assert.Not.has.errors(function()
+                m.fileExists("Hello world!")
+            end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.fileExists("Hello world!", 2) end)
+            assert.has.errors(function()
+                m.fileExists("Hello world!", 2)
+            end)
         end)
     end)
 
@@ -124,7 +136,9 @@ describe("[fileExists]:", function()
 
     -- False cases | 2 arguments
     it("Should throw when path does not exist", function()
-        assert.has.errors(function() m.fileExists("/tmp/adfafhasfihefafeaf/adsfasddfaf", test_file) end)
+        assert.has.errors(function()
+            m.fileExists("/tmp/adfafhasfihefafeaf/adsfasddfaf", test_file)
+        end)
     end)
 
     it("Should return false when filename does not exists in path", function()
@@ -156,12 +170,16 @@ describe("[ensureDirectory]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             ---@diagnostic disable-next-line: missing-parameter
-            assert.has.errors(function() m.ensureDirectory() end)
+            assert.has.errors(function()
+                m.ensureDirectory()
+            end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
-            assert.has.errors(function() m.ensureDirectory(2) end)
+            assert.has.errors(function()
+                m.ensureDirectory(2)
+            end)
         end)
     end)
 
