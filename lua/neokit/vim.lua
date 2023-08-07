@@ -6,20 +6,47 @@ local M = {}
 
 local uarray = require("neokit.array")
 
+local vimModes = { "n", "v", "x", "s", "o", "i", "l", "c", "t" }
+local customModes = { "*" }
+
+---Check if a mode is valid
+---@param mode string The mode to check validity of
+---@param useCustom? boolean Rather to use custom modes or not. Default to true
+---@return boolean # true if mode is valid, false otherwise
+local function isModeValid_(mode, useCustom)
+    if useCustom == nil then
+        useCustom = true
+    end
+    if type(mode) ~= "string" or type(useCustom) ~= "boolean" then
+        return false
+    end
+
+    local modes = vimModes
+    if useCustom then
+        modes = uarray.concat(modes, customModes)
+    end
+    if uarray.contains(modes, mode) then
+        return true
+    end
+
+    return false
+end
+
 ---Map a keybind for the Neovim instance
----@param mode string The mode the key bind will created for
+---@param mode string|table The mode(s) the key bind will created for. Use * for all
 ---@param key string The key combination that will trigger the binding
 ---@param action string|function The action that will take place when the binding is being triggered
----@param opts? table Additional options passed to nvim_set_keymap function<br/>
----       opts.noremap: non-recursive mapping<br/>
+---@param opts? table Additional options passed to vim.keymap.set function<br/>
+---       opts.buffer: Local buffer mapping. Buffer id. When 0 or true, take current buffer<br/>
+---       opts.remap: erase any previous mapping<br/>
 ---       opts.desc: human-readable description<br/>
----       opts.replace_keycodes: replace keycodes in the resulting string<br/>
+---       opts.replace_keycodes: replace keycodes in the resulting string. true if expr is true<br/>
 ---       opts.nowait: Do not wait if another key bing use the same start of key<br/>
 ---       opts.silent: Do not produce any message<br/>
 ---       opts.script: Remap only mappings starting with <SID><br/>
 ---       opts.expr: Treat the keybind as an expression<br/>
 ---       opts.unique: Do not erase the previous mapping if any before it
----@raise error if mode is not a string<br/>
+---@raise error if mode is not a string or a table<br/>
 ---error if mode does not have a valid value<br/>
 ---error if key is not a string<br/>
 ---error if action is not a string<br/>
@@ -27,15 +54,17 @@ local uarray = require("neokit.array")
 ---@usage
 ---map("i", "jk", "<ESC>", { nowait = true })
 function M.map(mode, key, action, opts)
-    if opts == nil then
-        opts = {}
+    if type(mode) ~= "string" and type(mode) ~= "table" then
+        error("argument 'mode': must be a string or a table")
     end
-    if type(mode) ~= "string" then
-        error("argument 'mode': must be a string")
+    if mode == "*" then
+        mode = vimModes
     end
-    local validModes = { "n", "i", "c", "v", "x", "!", "" }
-    if not uarray.contains(validModes, mode) then
-        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    if type(mode) == "string" then
+        mode = { mode }
+    end
+    if not uarray.allOf(mode, isModeValid_) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(uarray.concat(vimModes, customModes), ", "))
     end
     if type(key) ~= "string" then
         error("argument 'key': must be a string")
@@ -43,16 +72,18 @@ function M.map(mode, key, action, opts)
     if type(action) ~= "string" and type(action) ~= "function" then
         error("argument 'action': must be a string or a function")
     end
+    if opts == nil then
+        opts = {}
+    end
     if type(opts) ~= "table" then
         error("argument 'opts': must be a table")
     end
 
     if type(action) == "function" then
         opts.callback = action
-        vim.api.nvim_set_keymap(mode, key, "", opts)
-    else
-        vim.api.nvim_set_keymap(mode, key, action, opts)
+        action = ""
     end
+    vim.keymap.set(mode, key, action, opts)
 end
 
 ---Check if a keybind exist for the Neovim instance
@@ -70,9 +101,8 @@ function M.mapExists(mode, key)
     if type(mode) ~= "string" then
         error("argument 'mode': must be a string")
     end
-    local validModes = { "n", "i", "c", "v", "x", "!", "" }
-    if not uarray.contains(validModes, mode) then
-        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    if not isModeValid_(mode, false) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(vimModes, ", "))
     end
     if type(key) ~= "string" then
         error("argument 'key': must be a string")
@@ -103,9 +133,8 @@ function M.getMap(mode, key)
     if type(mode) ~= "string" then
         error("argument 'mode': must be a string")
     end
-    local validModes = { "n", "i", "c", "v", "x", "!", "" }
-    if not uarray.contains(validModes, mode) then
-        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    if not isModeValid_(mode, false) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(vimModes, ", "))
     end
     if type(key) ~= "string" then
         error("argument 'key': must be a string")
@@ -123,35 +152,54 @@ function M.getMap(mode, key)
 end
 
 ---Unmap a keybind for the Neovim instance
----@param mode string The mode the key bind will deleted for
+---@param mode string|table The mode(s) the key bind will deleted for. Use * for all
 ---@param key string The key combination that will be deleted
----@return boolean # true if a keybind have been deleted, false if the keybind does not exist
----@raise error if mode is not a string<br/>
+---@param opts? table Additional options passed to vim.keymap.del function<br/>
+---       opts.buffer: Local buffer mapping. Buffer id. When 0 or true, take current buffer
+---@return boolean # true if a keybind have been deleted, false if the keybind does not exist in one of the modes
+---@raise error if mode is not a string or a table<br/>
 ---error if mode does not have a valid value<br/>
----error if key is not a string
+---error if key is not a string<br/>
+---error if opts is given and is not a table
 ---@usage
 ---map("i", "jk", "<ESC>", { nowait = true })
 ---unmap("i", "jk") -- true
 ---unmap("i", "notexist") -- false
-function M.unmap(mode, key)
-    if type(mode) ~= "string" then
-        error("argument 'mode': must be a string")
+function M.unmap(mode, key, opts)
+    if type(mode) ~= "string" and type(mode) ~= "table" then
+        error("argument 'mode': must be a string or a table")
     end
-    local validModes = { "n", "i", "c", "v", "x", "!", "" }
-    if not uarray.contains(validModes, mode) then
-        error("argument 'mode': invalid, must be one of: " .. uarray.join(validModes, ", "))
+    if mode == "*" then
+        mode = vimModes
+    end
+    if type(mode) == "string" then
+        mode = { mode }
+    end
+    if not uarray.allOf(mode, isModeValid_) then
+        error("argument 'mode': invalid, must be one of: " .. uarray.join(uarray.concat(vimModes, customModes), ", "))
     end
     if type(key) ~= "string" then
         error("argument 'key': must be a string")
     end
-
-    if not M.mapExists(mode, key) then
-        return false
+    if opts == nil then
+        opts = {}
+    end
+    if type(opts) ~= "table" then
+        error("argument 'opts': must be a table")
     end
 
-    vim.api.nvim_del_keymap(mode, key)
+    local ret = true
 
-    return true
+    uarray.forEach(mode, function(m)
+        if M.mapExists(m, key) then
+            print("For " .. key .. " in " .. m)
+            vim.keymap.del(m, key, opts)
+        else
+            ret = false
+        end
+    end)
+
+    return ret
 end
 
 ---Get the value of an option for the Neovim instance

@@ -148,7 +148,6 @@ describe("[map]:", function()
         local key = "otherrandomkeybind"
         local action = "otherrandomaction"
         local opts = {
-            noremap = true,
             desc = "Hello world",
             nowait = true,
             silent = true,
@@ -158,11 +157,32 @@ describe("[map]:", function()
         assert.is.True(checkKeymap(mode, key, action, opts))
 
         key = "new otherrandomkeybind"
-        opts.noremap = false
         opts.silent = false
 
         m.map(mode, key, action, opts)
         assert.is.True(checkKeymap(mode, key, action, opts))
+    end)
+
+    it("Should successfully map in multiple modes", function()
+        local mode = { "n", "i" }
+        local key = "someotherrandomkeybind"
+        local action = "someotherrandomaction"
+
+        m.map(mode, key, action)
+        assert.is.True(checkKeymap("n", key, action))
+        assert.is.True(checkKeymap("i", key, action))
+        assert.is.False(checkKeymap("v", key, action))
+    end)
+
+    it("Should successfully map in all modes when using *", function()
+        local mode = "*"
+        local key = "someanotherrandomkeybind"
+        local action = "someanotherrandomaction"
+
+        m.map(mode, key, action)
+        assert.is.True(checkKeymap("n", key, action))
+        assert.is.True(checkKeymap("v", key, action))
+        assert.is.True(checkKeymap("i", key, action))
     end)
 
     -- Using function action
@@ -202,7 +222,6 @@ describe("[map]:", function()
             print("Doing stuff")
         end
         local opts = {
-            noremap = true,
             desc = "Hello world",
             nowait = true,
             silent = true,
@@ -212,7 +231,6 @@ describe("[map]:", function()
         assert.is.True(checkKeymap(mode, key, action, opts))
 
         key = "new otherrandomkeybind"
-        opts.noremap = false
         opts.silent = false
 
         m.map(mode, key, action, opts)
@@ -352,7 +370,6 @@ describe("[getMap]:", function()
         local opts = {
             nowait = true,
             silent = true,
-            noremap = false,
             desc = "This is the description of this custom keybind",
         }
 
@@ -446,6 +463,34 @@ describe("[unmap]:", function()
         assert.is.True(m.unmap(mode, key))
         assert.is.False(checkKeymap(mode, key, action))
     end)
+
+    it("Should remove map in multiple modes", function()
+        local mode = { "n", "i" }
+        local key = "someotherrandomkeybind"
+        local action = "someotherrandomaction"
+
+        m.map(mode, key, action)
+        assert.is.True(checkKeymap("n", key, action))
+        assert.is.True(checkKeymap("i", key, action))
+        m.unmap(mode, key)
+        assert.is.False(checkKeymap("n", key, action))
+        assert.is.False(checkKeymap("i", key, action))
+    end)
+
+    it("Should successfully unmap in all modes when using *", function()
+        local mode = "*"
+        local key = "someanotherrandomkeybind"
+        local action = "someanotherrandomaction"
+
+        m.map(mode, key, action)
+        assert.is.True(checkKeymap("n", key, action))
+        assert.is.True(checkKeymap("v", key, action))
+        assert.is.True(checkKeymap("i", key, action))
+        m.unmap(mode, key)
+        assert.is.False(checkKeymap("n", key, action))
+        assert.is.False(checkKeymap("v", key, action))
+        assert.is.False(checkKeymap("i", key, action))
+    end)
 end)
 
 describe("[getOption]:", function()
@@ -538,14 +583,6 @@ describe("[setOption]:", function()
             ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
                 m.setOption("mouse", {})
-            end)
-        end)
-
-        -- Argument 3
-        it("Should throw when argument 3 is not a table", function()
-            ---@diagnostic disable-next-line: param-type-mismatch
-            assert.has.errors(function()
-                m.getOption("mouse", "nvi", 2)
             end)
         end)
     end)
