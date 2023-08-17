@@ -129,3 +129,49 @@ describe("[ensureLastChar]:", function()
         assert.are.same(source, result:sub(1, -2))
     end)
 end)
+
+describe("[startWith]:", function()
+    describe("arguments:", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith(2)
+            end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith("Hello world")
+            end)
+        end)
+
+        it("Should throw when argument 2 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith("Hello world", 2)
+            end)
+        end)
+    end)
+
+    it("Should return true if str start with the given pattern", function()
+        assert.is.True(m.startWith("Hello world!", "Hel"))
+    end)
+
+    it("Should return false if str does not start with the given pattern", function()
+        assert.is.False(m.startWith("Hello world!", "No"))
+    end)
+
+    it("Should return false if str contains the given pattern but not at the start", function()
+        assert.is.False(m.startWith("Hello world!", "llo"))
+    end)
+end)
