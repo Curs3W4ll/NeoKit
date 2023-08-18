@@ -24,9 +24,11 @@ function M.hexToRGB(hex)
     end
     local validElems = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" }
     local hexAsArray = require("neokit.str").toArray(hex)
-    if not require("neokit.array").allOf(hexAsArray, function(e)
-        return require("neokit.array").contains(validElems, e)
-    end) then
+    if
+        not require("neokit.array").allOf(hexAsArray, function(e)
+            return require("neokit.array").contains(validElems, e)
+        end)
+    then
         error("argument 'hex': invalid value")
     end
 

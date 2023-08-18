@@ -97,7 +97,9 @@ function M.toArray(str)
     local result = {}
 
     ---@diagnostic disable-next-line discard-returns
-    string.gsub(str, ".", function(c) table.insert(result, c) end)
+    string.gsub(str, ".", function(c)
+        table.insert(result, c)
+    end)
 
     return result
 end
