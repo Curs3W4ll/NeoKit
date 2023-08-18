@@ -58,4 +58,48 @@ function M.contains(str, pattern)
     return vim.fn.match(str, pattern) >= 0
 end
 
+---Check if a string starts with a specified string
+---@param str string The string to search the pattern in
+---@param pattern string The pattern to search at the start of the string
+---@return boolean # true if str starts with pattern, false otherwise
+---@raise error if str is not a string<br/>
+---error if pattern is not a string
+---@usage
+---local str = "This is me Mario!"
+---if startWith(str, "This") then
+---    print("The string starts with 'This'")
+---else
+---    print("The string does not starts with 'This'")
+---end
+function M.startWith(str, pattern)
+    if type(str) ~= "string" then
+        error("argument 'str': must be a string")
+    end
+    if type(pattern) ~= "string" then
+        error("argument 'pattern': must be a string")
+    end
+
+    return string.sub(str, 1, string.len(pattern)) == pattern
+end
+
+---Convert a string to an array with an element for each character of the string
+---@param str string The string to convert into an array
+---@return table # The string as an array of letters
+---@raise error if str is not a string
+---@usage
+---local str = "Hello"
+---local strAsArr = toArray(str) -- { "H", "e", "l", "l", "o" }
+function M.toArray(str)
+    if type(str) ~= "string" then
+        error("argument 'str': must be a string")
+    end
+
+    local result = {}
+
+    ---@diagnostic disable-next-line discard-returns
+    string.gsub(str, ".", function(c) table.insert(result, c) end)
+
+    return result
+end
+
 return M

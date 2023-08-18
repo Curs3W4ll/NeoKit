@@ -99,7 +99,7 @@ function M.find(tbl, value)
     return nil
 end
 
----Internal function use to recursively copy a table
+---Internal function used to recursively copy a table
 ---@param obj any The object to copy
 ---@return any # A deep copy of obj
 local function copy_(obj)

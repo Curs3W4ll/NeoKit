@@ -52,6 +52,7 @@ print(str.ensureLastChar("Hello", "!")) -- Hello!
 You can find more details about modules at https://curs3w4ll.github.io/NeoKit/
 
 - [`neokit.array`](https://curs3w4ll.github.io/NeoKit/modules/array.html)
+- [`neokit.colors`](https://curs3w4ll.github.io/NeoKit/modules/colors.html)
 - [`neokit.fs`](https://curs3w4ll.github.io/NeoKit/modules/fs.html)
 - [`neokit.str`](https://curs3w4ll.github.io/NeoKit/modules/str.html)
 - [`neokit.table`](https://curs3w4ll.github.io/NeoKit/modules/table.html)

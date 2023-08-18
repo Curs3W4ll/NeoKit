@@ -4,30 +4,30 @@ describe("[contains]:", function()
     describe("arguments:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.contains()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.contains(2)
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.contains("Hello")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.contains("Hello", 2)
             end)
         end)
@@ -72,30 +72,30 @@ describe("[ensureLastChar]:", function()
     describe("arguments:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.ensureLastChar()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.ensureLastChar(2)
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.ensureLastChar("Hello world")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.ensureLastChar("Hello world", 2)
             end)
         end)
@@ -127,5 +127,86 @@ describe("[ensureLastChar]:", function()
         local source = "Hello world"
         local result = m.ensureLastChar(source, "!")
         assert.are.same(source, result:sub(1, -2))
+    end)
+end)
+
+describe("[startWith]:", function()
+    describe("arguments:", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith(2)
+            end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith("Hello world")
+            end)
+        end)
+
+        it("Should throw when argument 2 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith("Hello world", 2)
+            end)
+        end)
+    end)
+
+    it("Should return true if str start with the given pattern", function()
+        assert.is.True(m.startWith("Hello world!", "Hel"))
+    end)
+
+    it("Should return false if str does not start with the given pattern", function()
+        assert.is.False(m.startWith("Hello world!", "No"))
+    end)
+
+    it("Should return false if str contains the given pattern but not at the start", function()
+        assert.is.False(m.startWith("Hello world!", "llo"))
+    end)
+end)
+
+describe("[toArray]:", function()
+    describe("arguments:", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith(2)
+            end)
+        end)
+    end)
+
+    it("Should return a valid array contained str splitted for each letter | test 1", function()
+        local str = "Hello world!"
+        local expected = { "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" }
+        assert.are.same(expected, m.toArray(str))
+    end)
+
+    it("Should return a valid array contained str splitted for each letter | test 2", function()
+        local str = "Hello world!"
+        local expected = { "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" }
+        assert.are.same(expected, m.toArray(str))
+    end)
+
+    it("Should return an empty array when str is empty", function()
+        assert.are.same({}, m.toArray(""))
     end)
 end)
