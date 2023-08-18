@@ -175,3 +175,38 @@ describe("[startWith]:", function()
         assert.is.False(m.startWith("Hello world!", "llo"))
     end)
 end)
+
+describe("[toArray]:", function()
+    describe("arguments:", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.startWith()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.startWith(2)
+            end)
+        end)
+    end)
+
+    it("Should return a valid array contained str splitted for each letter | test 1", function()
+        local str = "Hello world!"
+        local expected = { "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" }
+        assert.are.same(expected, m.toArray(str))
+    end)
+
+    it("Should return a valid array contained str splitted for each letter | test 2", function()
+        local str = "Hello world!"
+        local expected = { "H", "e", "l", "l", "o", " ", "w", "o", "r", "l", "d", "!" }
+        assert.are.same(expected, m.toArray(str))
+    end)
+
+    it("Should return an empty array when str is empty", function()
+        assert.are.same({}, m.toArray(""))
+    end)
+end)

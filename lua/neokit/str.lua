@@ -82,4 +82,24 @@ function M.startWith(str, pattern)
     return string.sub(str, 1, string.len(pattern)) == pattern
 end
 
+---Convert a string to an array with an element for each character of the string
+---@param str string The string to convert into an array
+---@return table # The string as an array of letters
+---@raise error if str is not a string
+---@usage
+---local str = "Hello"
+---local strAsArr = toArray(str) -- { "H", "e", "l", "l", "o" }
+function M.toArray(str)
+    if type(str) ~= "string" then
+        error("argument 'str': must be a string")
+    end
+
+    local result = {}
+
+    ---@diagnostic disable-next-line discard-returns
+    string.gsub(str, ".", function(c) table.insert(result, c) end)
+
+    return result
+end
+
 return M
