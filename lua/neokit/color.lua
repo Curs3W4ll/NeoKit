@@ -37,4 +37,39 @@ function M.hexToRGB(hex)
     }
 end
 
+---Internal function used to get the luminance of a color
+---@param color table The color to get the luminance of. In RGB format
+---@return number # The relative luminance of the given color
+local function getRelativeLuminance_(color)
+    local r, g, b = color.r / 255, color.g / 255, color.b / 255
+
+    local function adjust(c)
+        if c <= 0.03928 then
+            return c / 12.92
+        else
+            return ((c + 0.055) / 1.055) ^ 2.4
+        end
+    end
+    r, g, b = adjust(r), adjust(g), adjust(b)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+end
+
+---Check if a color need to be paired to a high or low contrast color according to its luminance
+---@param hex string The hexadecimal color as a string
+---@return "dark"|"light" # What the contrast should be
+---@raise error if hex is not a string<br/>
+---error if hex is not valid (no #, more than 6 values, invalid values)
+---@usage
+---print(getContrastColor("#000000")) -- black -> 'light' contrast
+---print(getContrastColor("#ffffff")) -- white -> 'dark' contrast
+function M.getContrastColor(hex)
+    local colorAsRGB = M.hexToRGB(hex)
+    local colorLuminance = getRelativeLuminance_(colorAsRGB)
+    if colorLuminance > 0.179 then
+        return "dark"
+    else
+        return "light"
+    end
+end
+
 return M
