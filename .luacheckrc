@@ -9,13 +9,14 @@ self = false
 
 -- Glorious list of warnings: https://luacheck.readthedocs.io/en/stable/warnings.html
 ignore = {
+    "631"
 }
 
 globals = {
-  "_",
+    "_",
 }
 
 -- Global objects defined by the C code
 read_globals = {
-  "vim",
+    "vim",
 }
