@@ -50,52 +50,52 @@ describe("[map]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.map()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.map(2)
             end)
         end)
 
         it("Should throw when argument 1 is not valid", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.map("blabla")
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.map("n")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.map("n", 2)
             end)
         end)
 
         -- Argument 3
         it("Should throw when argument 3 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.map("n", "<leader>G")
             end)
         end)
 
         it("Should throw when argument 3 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.map("n", "<leader>G", 2)
             end)
         end)
@@ -108,8 +108,8 @@ describe("[map]:", function()
         end)
 
         it("Should throw when argument 4 is not a table", function()
-            ---@diagnostic disable-next-line: param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.map("n", "<leader>G", "echo a", 2)
             end)
         end)
@@ -242,37 +242,37 @@ describe("[mapExists]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.mapExists()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.mapExists(2)
             end)
         end)
 
         it("Should throw when argument 1 is not valid", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.mapExists("blabla")
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.mapExists("n")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.mapExists("n", 2)
             end)
         end)
@@ -311,37 +311,37 @@ describe("[getMap]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.getMap()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.getMap(2)
             end)
         end)
 
         it("Should throw when argument 1 is not valid", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.getMap("blabla")
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.getMap("n")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.getMap("n", 2)
             end)
         end)
@@ -376,18 +376,18 @@ describe("[getMap]:", function()
         m.map(mode, key, action, opts)
         local result = m.getMap(mode, key)
         assert.Not.is.Nil(result)
-        ---@diagnostic disable-next-line need-check-nil
+        ---@diagnostic disable-next-line: need-check-nil
         assert.are.same(mode, result["mode"])
-        ---@diagnostic disable-next-line need-check-nil
+        ---@diagnostic disable-next-line: need-check-nil
         assert.are.same(key, result["lhs"])
-        ---@diagnostic disable-next-line need-check-nil
+        ---@diagnostic disable-next-line: need-check-nil
         assert.are.same(action, result["rhs"])
         for k, v in pairs(opts) do
             if type(v) == "boolean" then
-                ---@diagnostic disable-next-line cast-local-type
+                ---@diagnostic disable-next-line: cast-local-type
                 v = v and 1 or 0
             end
-            ---@diagnostic disable-next-line need-check-nil
+            ---@diagnostic disable-next-line: need-check-nil
             assert.are.same(v, result[k])
         end
     end)
@@ -397,37 +397,37 @@ describe("[unmap]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.unmap()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.unmap(2)
             end)
         end)
 
         it("Should throw when argument 1 is not valid", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.unmap("blabla")
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.unmap("n")
             end)
         end)
 
         it("Should throw when argument 2 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.unmap("n", 2)
             end)
         end)
@@ -497,15 +497,15 @@ describe("[getOption]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.getOption()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.getOption(2)
             end)
         end)
@@ -518,8 +518,8 @@ describe("[getOption]:", function()
 
         -- Argument 2
         it("Should throw when argument 2 is not a table", function()
-            ---@diagnostic disable-next-line: param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.getOption("mouse", 2)
             end)
         end)
@@ -551,37 +551,37 @@ describe("[setOption]:", function()
     describe("(arguments)", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.setOption()
             end)
         end)
 
         it("Should throw when argument 1 is not a string", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
                 m.setOption(2)
             end)
         end)
 
         it("Should throw when the argument 1 is not valid", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.setOption("notvalid")
             end)
         end)
 
         -- Argument 2
         it("Should throw when argument 2 is not given", function()
-            ---@diagnostic disable-next-line: missing-parameter
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
                 m.setOption("mouse")
             end)
         end)
 
         it("Should throw when argument 2 is not a string/number/boolean", function()
-            ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
             assert.has.errors(function()
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.setOption("mouse", {})
             end)
         end)
