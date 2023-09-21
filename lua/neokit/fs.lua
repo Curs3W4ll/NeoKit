@@ -139,16 +139,16 @@ function M.shortenPath(path, opts)
     opts.tail = opts.tail or 1
     opts.maxComponents = opts.maxComponents or 0
     opts.relative = opts.relative or true
-    if type(opts.len)  ~= "number" then
+    if type(opts.len) ~= "number" then
         error("argument 'opts.len': must be a number")
     end
-    if type(opts.tail)  ~= "number" then
+    if type(opts.tail) ~= "number" then
         error("argument 'opts.tail': must be a number")
     end
-    if type(opts.maxComponents)  ~= "number" then
+    if type(opts.maxComponents) ~= "number" then
         error("argument 'opts.maxComponents': must be a number")
     end
-    if type(opts.relative)  ~= "boolean" then
+    if type(opts.relative) ~= "boolean" then
         error("argument 'opts.relative': must be a boolean")
     end
 
@@ -163,7 +163,7 @@ function M.shortenPath(path, opts)
     end
 
     if opts.relative then
-        path = vim.fn.fnamemodify(path, ':.') or path
+        path = vim.fn.fnamemodify(path, ":.") or path
     end
 
     local separator = require("plenary.path").path.sep

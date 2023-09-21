@@ -519,14 +519,14 @@ describe("[join]:", function()
         -- Argument 1
         it("Should throw when argument 1 is not given", function()
             assert.has.errors(function()
----@diagnostic disable-next-line: missing-parameter
+                ---@diagnostic disable-next-line: missing-parameter
                 m.join()
             end)
         end)
 
         it("Should throw when argument 1 is not a table", function()
             assert.has.errors(function()
----@diagnostic disable-next-line: param-type-mismatch
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.join(2)
             end)
         end)
@@ -534,7 +534,7 @@ describe("[join]:", function()
         -- Argument 2
         it("Should throw when argument 2 is not a string", function()
             assert.has.errors(function()
----@diagnostic disable-next-line: param-type-mismatch
+                ---@diagnostic disable-next-line: param-type-mismatch
                 m.join({ 1, 2 }, 2)
             end)
         end)

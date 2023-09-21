@@ -326,14 +326,17 @@ describe("[shortenPath]:", function()
         assert.are.same("/adir/bdir/myfile", m.shortenPath("/adir/bdir/myfile", opts))
     end)
 
-    it("Should return a shorter version of the path with the last two components unedited when giving opts.tail = 2", function()
-        local opts = {
-            tail = 2,
-        }
-        assert.are.same("/a/bdir/myfile", m.shortenPath("/adir/bdir/myfile", opts))
+    it(
+        "Should return a shorter version of the path with the last two components unedited when giving opts.tail = 2",
+        function()
+            local opts = {
+                tail = 2,
+            }
+            assert.are.same("/a/bdir/myfile", m.shortenPath("/adir/bdir/myfile", opts))
 
-        assert.are.same("/t/a/b/cdir/myfile", m.shortenPath("/tmp/adir/bdir/cdir/myfile", opts))
-    end)
+            assert.are.same("/t/a/b/cdir/myfile", m.shortenPath("/tmp/adir/bdir/cdir/myfile", opts))
+        end
+    )
 
     it("Should trim 2-n components when components number is greater than maxComponents", function()
         local opts = {
