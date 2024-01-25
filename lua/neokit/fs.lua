@@ -115,7 +115,13 @@ end
 ---@param separator string Characters used to separate the different paths
 ---@param compressionIndicator string Characters used to indicate a part of the path is not displayed and as been compressed
 ---@return number # The size of the result string with the asked components
-local function getPathLengthForComponents(components, headComponentsNbr, tailComponentsNbr, separator, compressionIndicator)
+local function getPathLengthForComponents(
+    components,
+    headComponentsNbr,
+    tailComponentsNbr,
+    separator,
+    compressionIndicator
+)
     local componentsSize = 0
 
     local i = headComponentsNbr
@@ -130,7 +136,13 @@ local function getPathLengthForComponents(components, headComponentsNbr, tailCom
         i = i + 1
     end
 
-    return componentsSize + ((headComponentsNbr + tailComponentsNbr - 1) * string.len(separator)) + (headComponentsNbr + tailComponentsNbr < #components and string.len(compressionIndicator) + string.len(separator) or 0)
+    return componentsSize
+        + ((headComponentsNbr + tailComponentsNbr - 1) * string.len(separator))
+        + (
+            headComponentsNbr + tailComponentsNbr < #components
+                and string.len(compressionIndicator) + string.len(separator)
+            or 0
+        )
 end
 
 ---Get a shorter version of a path
@@ -234,11 +246,27 @@ function M.shortenPath(path, opts)
         local headComponentsNbr = 1
         local tailComponentsNbr = 1
 
-        if getPathLengthForComponents(components, headComponentsNbr, tailComponentsNbr, separator, compressionIndicator) > opts.maxLength then
+        if
+            getPathLengthForComponents(
+                components,
+                headComponentsNbr,
+                tailComponentsNbr,
+                separator,
+                compressionIndicator
+            ) > opts.maxLength
+        then
             headComponentsNbr = 0
         end
 
-        while getPathLengthForComponents(components, headComponentsNbr, tailComponentsNbr + 1, separator, compressionIndicator) <= opts.maxLength do
+        while
+            getPathLengthForComponents(
+                components,
+                headComponentsNbr,
+                tailComponentsNbr + 1,
+                separator,
+                compressionIndicator
+            ) <= opts.maxLength
+        do
             tailComponentsNbr = tailComponentsNbr + 1
         end
 
