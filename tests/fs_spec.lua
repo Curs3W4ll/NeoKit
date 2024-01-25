@@ -301,6 +301,25 @@ describe("[shortenPath]:", function()
                 m.shortenPath("/tmp/path", { maxComponents = 0 })
             end)
         end)
+
+        it("Should throw when opts.maxLength is negative", function()
+            assert.has.errors(function()
+                m.shortenPath("/tmp/path", { maxLength = -5 })
+            end)
+            assert.has.errors(function()
+                m.shortenPath("/tmp/path", { maxLength = -1 })
+            end)
+
+            assert.Not.has.errors(function()
+                m.shortenPath("/tmp/path", { maxLength = 1 })
+            end)
+        end)
+
+        it("Should not throw when opts.maxLength is 0", function()
+            assert.Not.has.errors(function()
+                m.shortenPath("/tmp/path", { maxLength = 0 })
+            end)
+        end)
     end)
 
     it("Should return a shorter version of the path", function()
@@ -348,5 +367,26 @@ describe("[shortenPath]:", function()
 
         opts.maxComponents = 3
         assert.are.same("/a/…/d/myfile", m.shortenPath("/a/bdir/cdir/ddir/myfile", opts))
+    end)
+
+    it("Should compress only needed components when specifying a length limit", function()
+        local opts = {
+            maxLength = 23,
+            tail = 2,
+            len = 3,
+        }
+        assert.are.same("/roo/…/a/lot/of/nodes", m.shortenPath("/root/really/long/path/with/a/lot/of/nodes", opts))
+
+        opts.maxLength = 18
+        assert.are.same("/pat/…/super/file", m.shortenPath("/path/to/my/super/file", opts))
+
+        opts.maxLength = 12
+        assert.are.same("/pat/…/file", m.shortenPath("/path/to/my/file", opts))
+
+        opts.maxLength = 0
+        assert.are.same("/pat/to/my/file", m.shortenPath("/path/to/my/file", opts))
+
+        opts.maxComponents = 3
+        assert.are.same("/pat/…/my/file", m.shortenPath("/path/to/my/file", opts))
     end)
 end)
