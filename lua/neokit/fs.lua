@@ -126,13 +126,13 @@ local function getPathLengthForComponents(
 
     local i = headComponentsNbr
     while i > 0 do
-        componentsSize = componentsSize + string.len(components[i])
+        componentsSize = componentsSize + string.len(components[i] or "")
         i = i - 1
     end
 
     i = #components - (tailComponentsNbr - 1)
     while i <= #components do
-        componentsSize = componentsSize + string.len(components[i])
+        componentsSize = componentsSize + string.len(components[i] or "")
         i = i + 1
     end
 
