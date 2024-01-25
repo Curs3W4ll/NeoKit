@@ -158,10 +158,11 @@ end
 ---error if opts is not nil and not a table
 ---@usage
 ---local path = "/tmp/adir/bdir/cdir/myfile"
----print(shortenPath()) -- "/t/a/b/c/myfile"
----print(shortenPath(), { len = 3 }) -- "/tmp/adi/bdi/cdi/myfile"
----print(shortenPath(), { tail = 2 }) -- "/t/a/b/cdir/myfile"
----print(shortenPath(), { len = 2, maxComponents = 3 }) -- "/tm/…/cd/myfile"
+---print(shortenPath(path)) -- "/t/a/b/c/myfile"
+---print(shortenPath(path, { len = 3 })) -- "/tmp/adi/bdi/cdi/myfile"
+---print(shortenPath(path, { tail = 2 })) -- "/t/a/b/cdir/myfile"
+---print(shortenPath(path, { len = 2, maxComponents = 3 })) -- "/tm/…/cd/myfile"
+---print(shortenPath(path, { len = 2, maxLength = 13 })) -- "/tm/…/myfile"
 function M.shortenPath(path, opts)
     local uarray = require("neokit.array")
     local ustr = require("neokit.str")
