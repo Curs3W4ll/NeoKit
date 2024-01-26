@@ -261,12 +261,14 @@ function M.shortenPath(path, opts)
 
         while
             getPathLengthForComponents(
-                components,
-                headComponentsNbr,
-                tailComponentsNbr + 1,
-                separator,
-                compressionIndicator
-            ) <= opts.maxLength and tailComponentsNbr < #components - 1
+                    components,
+                    headComponentsNbr,
+                    tailComponentsNbr + 1,
+                    separator,
+                    compressionIndicator
+                )
+                <= opts.maxLength
+            and tailComponentsNbr < #components - 1
         do
             tailComponentsNbr = tailComponentsNbr + 1
         end
