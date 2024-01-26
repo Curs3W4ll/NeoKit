@@ -386,6 +386,9 @@ describe("[shortenPath]:", function()
         opts.maxLength = 0
         assert.are.same("/pat/to/my/file", m.shortenPath("/path/to/my/file", opts))
 
+        opts.maxLength = 180
+        assert.are.same("/pat/to/my/file", m.shortenPath("/path/to/my/file", opts))
+
         opts.maxComponents = 3
         assert.are.same("/pat/…/my/file", m.shortenPath("/path/to/my/file", opts))
     end)

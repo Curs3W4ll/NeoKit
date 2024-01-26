@@ -266,10 +266,12 @@ function M.shortenPath(path, opts)
                 tailComponentsNbr + 1,
                 separator,
                 compressionIndicator
-            ) <= opts.maxLength
+            ) <= opts.maxLength and tailComponentsNbr < #components - 1
         do
             tailComponentsNbr = tailComponentsNbr + 1
         end
+
+        local needCompressionIndicator = headComponentsNbr + tailComponentsNbr < #components
 
         finalComponents = {}
         i = 1
@@ -278,7 +280,7 @@ function M.shortenPath(path, opts)
             headComponentsNbr = headComponentsNbr - 1
             i = i + 1
         end
-        if headComponentsNbr + tailComponentsNbr < #components then
+        if needCompressionIndicator then
             table.insert(finalComponents, compressionIndicator)
         end
         i = #components - (tailComponentsNbr - 1)
