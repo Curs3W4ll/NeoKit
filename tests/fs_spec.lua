@@ -394,8 +394,11 @@ describe("[shortenPath]:", function()
     end)
 
     it("Should left untouched a path containing only one component when specifying a max length", function()
-        assert.are.same("Makefile", m.shortenPath("Makefile", {
-            maxLength = 30,
-        }))
+        assert.are.same(
+            "Makefile",
+            m.shortenPath("Makefile", {
+                maxLength = 30,
+            })
+        )
     end)
 end)
