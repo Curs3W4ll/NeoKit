@@ -392,4 +392,10 @@ describe("[shortenPath]:", function()
         opts.maxComponents = 3
         assert.are.same("/pat/…/my/file", m.shortenPath("/path/to/my/file", opts))
     end)
+
+    it("Should left untouched a path containing only one component when specifying a max length", function()
+        assert.are.same("Makefile", m.shortenPath("Makefile", {
+            maxLength = 30,
+        }))
+    end)
 end)

@@ -244,8 +244,8 @@ function M.shortenPath(path, opts)
     local finalComponents = components
 
     if opts.maxLength ~= 0 then
-        local headComponentsNbr = 1
-        local tailComponentsNbr = 1
+        local headComponentsNbr = #finalComponents > 0 and 1 or 0
+        local tailComponentsNbr = #finalComponents > 1 and 1 or 0
 
         if
             getPathLengthForComponents(
