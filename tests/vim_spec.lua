@@ -599,3 +599,22 @@ describe("[setOption]:", function()
         assert.are.same(vim.api.nvim_get_option_value(option, {}), value)
     end)
 end)
+
+describe("[isStringBeforeCursor]:", function()
+    describe("(arguments)", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.isStringBeforeCursor()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.isStringBeforeCursor(2)
+            end)
+        end)
+    end)
+end)

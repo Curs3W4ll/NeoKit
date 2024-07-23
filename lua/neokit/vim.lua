@@ -262,4 +262,22 @@ function M.setOption(option, value, opts)
     vim.api.nvim_set_option_value(option, value, opts)
 end
 
+---Check if a string is preceding the current cursor position
+---@param str string The string to search before the current cursor position
+---@raise error if str is not a string
+---@usage
+---print(m.isStringBeforeCursor("some text preceding the cursor"))
+function M.isStringBeforeCursor(str)
+    if type(str) ~= "string" then
+        error("argument 'str': must be a string")
+    end
+    local line = vim.api.nvim_get_current_line()
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    if col < string.len(str) then
+        return false
+    end
+    local preceding_text = line:sub(col - string.len(str), col)
+    return preceding_text == str
+end
+
 return M
