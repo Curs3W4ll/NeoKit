@@ -104,4 +104,33 @@ function M.toArray(str)
     return result
 end
 
+---Count the number of occurrences of a character in a string
+---@param str string The string to search in
+---@param str2 string The string to search in str
+---@return number # The number of times str2 occurs in str
+---@raise error if str is not a string<br/>
+---error if str2 is not a string<br/>
+---error if str2 is empty
+---@usage
+---local str = "Hello"
+---local nbr = count(str, "l") -- 2
+function M.count(str, str2)
+    if type(str) ~= "string" then
+        error("argument 'str': must be a string")
+    end
+    if type(str2) ~= "string" then
+        error("argument 'str2': must be a string")
+    end
+    if string.len(str2) < 1 then
+        error("argument 'str2': must be at least 1 char long")
+    end
+
+    local count = 0
+    for _ in str:gmatch(str2) do
+        count = count + 1
+    end
+
+    return count
+end
+
 return M

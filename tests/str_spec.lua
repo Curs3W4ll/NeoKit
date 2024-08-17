@@ -210,3 +210,56 @@ describe("[toArray]:", function()
         assert.are.same({}, m.toArray(""))
     end)
 end)
+
+describe("[count]:", function()
+    describe("arguments:", function()
+        -- Argument 1
+        it("Should throw when argument 1 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.count()
+            end)
+        end)
+
+        it("Should throw when argument 1 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.count(2)
+            end)
+        end)
+
+        -- Argument 2
+        it("Should throw when argument 2 is not given", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter
+                m.count("")
+            end)
+        end)
+
+        it("Should throw when argument 2 is not a string", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.count("", 2)
+            end)
+        end)
+
+        it("Should throw when argument 2 is empty", function()
+            assert.has.errors(function()
+                ---@diagnostic disable-next-line: missing-parameter, param-type-mismatch
+                m.count("", "")
+            end)
+        end)
+    end)
+
+    it("Should return 0 when string does not contain the searched string", function()
+        local str = "Hello world!"
+        assert.are.same(0, m.count(str, "a"))
+    end)
+
+    it("Should return occurence number of the searched string in the source string", function()
+        local str = "Hello world!"
+        assert.are.same(1, m.count(str, "e"))
+        assert.are.same(2, m.count(str, "o"))
+        assert.are.same(1, m.count(str, "lo"))
+    end)
+end)
